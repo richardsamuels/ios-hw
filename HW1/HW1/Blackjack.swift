@@ -24,6 +24,7 @@ class Blackjack {
     //    UITextView text;
     
     var score = 100
+    var bet = 0;
     var round = 0
     var isDealer = false
     
@@ -39,7 +40,10 @@ class Blackjack {
     
     func double() {
         let h = isDealer ? dealer : player
-        
+    }
+    
+    func start(bet: Int) {
+        self.bet = bet
         
     }
     
@@ -68,7 +72,6 @@ class Deck {
         
         //Now do the same with the face cards
         let set: [Character] = ["A", "J", "Q", "K"]
-        
         for c in set {
             for _ in 1...4 {
                 deck.append(c)
@@ -86,7 +89,7 @@ class Deck {
 }
 
 class Hand {
-    var cards:[Character] = []
+    private var cards:[Character] = []
     
     func addCard(c: Character) {
         switch c {
@@ -104,6 +107,7 @@ class Hand {
             if let c = cards.last {
                 return [c] + " and \(cards.count - 1) other cards"
             }else {
+                //This should never happen
                 return "Empty hand???"
             }
             

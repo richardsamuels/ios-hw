@@ -8,13 +8,37 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIAlertViewDelegate {
     
     let bjGame = Blackjack()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //Now lets setup the initial interface.
+        //Only the play button should be enabled.
+        uiDefaultState()
+        
+    }
+    
+    //Set the default state of the UI
+    //(Only the Play button should be enabled)
+    func uiDefaultState() {
+        uiHit.hidden = true
+        uiStand.hidden = true
+        uiDouble.hidden = true
+        uiSplit.hidden = true
+        uiSurrender.hidden = true
+//        uiSurrender.setTitleColor(color: UIColor.grayColor(), forState: <#UIControlState#>)
+    }
+    
+    func uiGameState() {
+        uiHit.hidden = false
+        uiStand.hidden = false
+        uiDouble.hidden = false
+        uiPlay.hidden = true
+        uiSurrender.hidden = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,8 +47,41 @@ class ViewController: UIViewController {
     }
     
     //Actions for when buttons are hit
-    @IBAction func actionPlay() {
+    @IBAction func actionPlay(sender: AnyObject) {
+        //Setup an invalid input prompt Just in case
+        var error = UIAlertController(title: "Bad Bet!", message: "You may bet up to \(bjGame.score) in increments of $1. Please try again!", preferredStyle: UIAlertControllerStyle.Alert)
+        error.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default, nil))
+        
+        //Setup the betting prompt
+        let alert = UIAlertController(title: "Enter Your Bet", message: "You may bet up to \(bjGame.score) in increments of $1", preferredStyle: UIAlertControllerStyle.Alert)
+        var textField: UITextField?
+        
+        //Add a textfield to collect some input from the user
+        alert.addTextFieldWithConfigurationHandler() {
+        (UITextField money) in
+            money.keyboardType = UIKeyboardType.NumberPad
+            money.placeholder = String(self.bjGame.score)
+            textField = money
+        }
+    
+        //Now react to that input
+        alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.Default) {
+            (UIAlertAction a) in
+            if let bet = textField!.text.toInt() {
+                if bet <= self.bjGame.score {
+                    self.bjGame.start(bet)
+                    self.uiGameState()
+                }else {
+                    self.presentViewController(error, animated: true, completion: nil)
+                }
+            }else {
+                self.presentViewController(error, animated: true, completion: nil)
+            }
+            
+            })
+        self.presentViewController(alert, animated: true, completion: nil)
     }
+    
 
     @IBAction func actionSurrender() {
     }
@@ -41,11 +98,11 @@ class ViewController: UIViewController {
     @IBAction func actionSplit() {
     }
     
-    @IBOutlet weak var uiHit: UIButton!
-    @IBOutlet weak var uiStand: UIButton!
-    @IBOutlet weak var uiDouble: UIButton!
-    @IBOutlet weak var uiSplit: UIButton!
-    @IBOutlet weak var uiPlay: UIButton!
-    @IBOutlet weak var uiSurrender: UIButton!
-    @IBOutlet weak var uiCash: UILabel!
+    @IBOutlet  var uiHit: UIButton!
+    @IBOutlet  var uiStand: UIButton!
+    @IBOutlet  var uiDouble: UIButton!
+    @IBOutlet  var uiSplit: UIButton!
+    @IBOutlet  var uiPlay: UIButton!
+    @IBOutlet  var uiSurrender: UIButton!
+    @IBOutlet  var uiCash: UILabel!
 }
