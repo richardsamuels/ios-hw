@@ -20,7 +20,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NlI-Hk-gLz">
                                 <rect key="frame" x="16" y="20" width="568" height="455"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -29,24 +29,36 @@
                                 <state key="normal" title="Double">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="actionDouble" destination="vXZ-lx-hvc" eventType="touchUpInside" id="LGr-MX-Lcu"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bOe-Lw-JbX">
                                 <rect key="frame" x="25" y="512" width="30" height="30"/>
                                 <state key="normal" title="Hit">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="actionHit" destination="vXZ-lx-hvc" eventType="touchUpInside" id="uxL-Ir-rzp"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odm-WR-kGn">
                                 <rect key="frame" x="104" y="550" width="31" height="30"/>
                                 <state key="normal" title="Split">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="actionSplit" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Mfz-jC-wEM"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n8F-EF-0YJ">
                                 <rect key="frame" x="99" y="512" width="41" height="30"/>
                                 <state key="normal" title="Stand">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="actionStand" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DX6-Og-D6l"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0n-rK-lv0">
                                 <rect key="frame" x="505" y="512" width="79" height="30"/>
@@ -54,6 +66,10 @@
                                     <color key="titleColor" red="0.052765942150000002" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="actionPlay" destination="vXZ-lx-hvc" eventType="touchUpInside" id="wT1-rW-e0g"/>
+                                    <action selector="playBlackjack" destination="vXZ-lx-hvc" eventType="touchUpInside" id="GSP-KC-eeK"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Soa-pN-q6a">
                                 <rect key="frame" x="510" y="550" width="68" height="30"/>
@@ -61,6 +77,9 @@
                                     <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="actionSurrender" destination="vXZ-lx-hvc" eventType="touchUpInside" id="a4i-8G-XXa"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyX-6v-pdV">
                                 <rect key="frame" x="526" y="483" width="39" height="21"/>
@@ -91,6 +110,15 @@
                             <constraint firstAttribute="trailingMargin" secondItem="lyX-6v-pdV" secondAttribute="trailing" constant="19" id="zE0-pn-jU6"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="uiCash" destination="lyX-6v-pdV" id="qNI-e1-EyM"/>
+                        <outlet property="uiDouble" destination="5ao-3J-MoH" id="G8s-zZ-dW7"/>
+                        <outlet property="uiHit" destination="bOe-Lw-JbX" id="dhe-wS-WTY"/>
+                        <outlet property="uiPlay" destination="p0n-rK-lv0" id="M6o-QK-8To"/>
+                        <outlet property="uiSplit" destination="odm-WR-kGn" id="tAQ-gp-1zH"/>
+                        <outlet property="uiStand" destination="n8F-EF-0YJ" id="BMb-te-ukv"/>
+                        <outlet property="uiSurrender" destination="Soa-pN-q6a" id="ZDG-AB-R7J"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>

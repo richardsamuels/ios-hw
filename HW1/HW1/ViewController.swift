@@ -9,6 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    let bjGame = Blackjack()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +21,31 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //Actions for when buttons are hit
+    @IBAction func actionPlay() {
+    }
 
-
+    @IBAction func actionSurrender() {
+    }
+    
+    @IBAction func actionHit() {
+    }
+    
+    @IBAction func actionStand() {
+    }
+    
+    @IBAction func actionDouble() {
+    }
+    
+    @IBAction func actionSplit() {
+    }
+    
+    @IBOutlet weak var uiHit: UIButton!
+    @IBOutlet weak var uiStand: UIButton!
+    @IBOutlet weak var uiDouble: UIButton!
+    @IBOutlet weak var uiSplit: UIButton!
+    @IBOutlet weak var uiPlay: UIButton!
+    @IBOutlet weak var uiSurrender: UIButton!
+    @IBOutlet weak var uiCash: UILabel!
 }
-
