@@ -13,6 +13,7 @@
 		4EE162AC1A92878600A33CC3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EE162AB1A92878600A33CC3 /* Images.xcassets */; };
 		4EE162AF1A92878600A33CC3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EE162AD1A92878600A33CC3 /* LaunchScreen.xib */; };
 		4EE162BB1A92878600A33CC3 /* HW1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE162BA1A92878600A33CC3 /* HW1Tests.swift */; };
+		4EE162C71A9287E800A33CC3 /* Blackjack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE162C61A9287E800A33CC3 /* Blackjack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		4EE162B41A92878600A33CC3 /* HW1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HW1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EE162B91A92878600A33CC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EE162BA1A92878600A33CC3 /* HW1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW1Tests.swift; sourceTree = "<group>"; };
+		4EE162C61A9287E800A33CC3 /* Blackjack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blackjack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		4EE162A11A92878600A33CC3 /* HW1 */ = {
 			isa = PBXGroup;
 			children = (
+				4EE162C61A9287E800A33CC3 /* Blackjack.swift */,
 				4EE162A41A92878600A33CC3 /* AppDelegate.swift */,
 				4EE162A61A92878600A33CC3 /* ViewController.swift */,
 				4EE162A81A92878600A33CC3 /* Main.storyboard */,
@@ -161,6 +164,7 @@
 				TargetAttributes = {
 					4EE1629E1A92878600A33CC3 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 6QN349HHUB;
 					};
 					4EE162B31A92878600A33CC3 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -214,6 +218,7 @@
 			files = (
 				4EE162A71A92878600A33CC3 /* ViewController.swift in Sources */,
 				4EE162A51A92878600A33CC3 /* AppDelegate.swift in Sources */,
+				4EE162C71A9287E800A33CC3 /* Blackjack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HW1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -346,6 +352,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HW1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
