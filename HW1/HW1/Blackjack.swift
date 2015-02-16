@@ -44,7 +44,22 @@ class Blackjack {
     
     func start(bet: Int) {
         self.bet = bet
+        self.score -= bet
+    }
+    
+    func endRound() {
+        round += 1
+        isDealer = false
+        dealer.cards.removeAll()
+        player.cards.removeAll()
+        deck.reset()
+    }
+    
+    //Called when the player wishes to surrender. ends the round, and updates their score
+    func surrender() {
+        score += bet/2
         
+        endRound()
     }
     
 }

@@ -25,12 +25,12 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     //Set the default state of the UI
     //(Only the Play button should be enabled)
     func uiDefaultState() {
+        uiPlay.hidden = false
         uiHit.hidden = true
         uiStand.hidden = true
         uiDouble.hidden = true
         uiSplit.hidden = true
         uiSurrender.hidden = true
-//        uiSurrender.setTitleColor(color: UIColor.grayColor(), forState: <#UIControlState#>)
     }
     
     func uiGameState() {
@@ -39,6 +39,10 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         uiDouble.hidden = false
         uiPlay.hidden = true
         uiSurrender.hidden = false
+    }
+    
+    func uiUpdateFields() {
+        uiCash.text = String(bjGame.score)
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,9 +72,10 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.Default) {
             (UIAlertAction a) in
             if let bet = textField!.text.toInt() {
-                if bet <= self.bjGame.score {
+                if bet <= self.bjGame.score && bet > 0 {
                     self.bjGame.start(bet)
                     self.uiGameState()
+                    self.uiUpdateFields()
                 }else {
                     self.presentViewController(error, animated: true, completion: nil)
                 }
@@ -84,6 +89,19 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     
 
     @IBAction func actionSurrender() {
+        //Setup the surrender prompt
+        let alert = UIAlertController(title: "Are you sure you wish to surrender?", message: "You'll get $\(bjGame.bet/2) back, and the round will end. This cannot be undone", preferredStyle: UIAlertControllerStyle.Alert)
+        var textField: UITextField?
+        
+        //Now react to that input
+        alert.addAction(UIAlertAction(title: "Yes, I give up", style: UIAlertActionStyle.Destructive) {
+            (UIAlertAction a) in
+                self.bjGame.surrender()
+                self.uiDefaultState()
+                self.uiUpdateFields()
+            })
+        alert.addAction(UIAlertAction(title: "No, I'll keep playing", style: UIAlertActionStyle.Default, nil) )
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     @IBAction func actionHit() {
