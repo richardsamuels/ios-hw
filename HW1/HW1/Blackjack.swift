@@ -21,7 +21,8 @@ extension Array {
 
 class Blackjack {
     var score = 100
-    var bet = 0;
+    var bet = 0
+    var insurance = 0
     var round = 0
     var isDealer = false
     var doubled = false
@@ -60,6 +61,21 @@ class Blackjack {
         dealer.cards.removeAll()
         player.cards.removeAll()
         deck.reset()
+    }
+    
+    func insurance(bet: Int) {
+        score -= bet
+        insurance = bet
+        
+        //At this point, if the score is 21, it's blackjack
+        if(dealer.score() == 21) {
+            score += (2 * insurance)
+            resolveEndgame()
+        }
+    }
+    
+    func resolveEndgame() {
+        
     }
     
     //Called when the player wishes to surrender. ends the round, and updates their score

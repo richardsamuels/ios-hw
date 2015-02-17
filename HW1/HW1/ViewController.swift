@@ -64,7 +64,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiSurrender.hidden = true
         }
         
-        uiHandDealer.text = bjGame.dealer.string(dealer: true)
+        uiHandDealer.text = bjGame.dealer.string(dealer: false)
         uiHandPlayer1.text = bjGame.player.string(dealer: false)
         
         uiScoreDealer.text = String(bjGame.dealer.score())
@@ -73,6 +73,40 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     
     func uiCheckLose() {
         
+    }
+    
+    func uiInsurance() {
+        //Check if we need to offer insurance
+        let index = advance(uiHandDealer.text!.startIndex, 1)
+        if uiHandDealer.text![index] == "A" {
+            let insurance = UIAlertController(title: "Insurance", message: "You may place an insurance wager up to $\(bjGame.bet/2). (Enter 0 for no insurance)", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            var textField: UITextField?
+            
+            insurance.addTextFieldWithConfigurationHandler(){
+            (UITextField money) in
+                money.keyboardType = UIKeyboardType.NumberPad
+                money.placeholder = "0"
+                textField = money
+            }
+            
+            insurance.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default) {
+                (UIAlertAction a) in
+                if let bet = textField!.text.toInt() {
+                    if bet <= (self.bjGame.bet / 2)  {
+                        self.bjGame.insurance(bet)
+                    }else {
+                        self.presentViewController(insurance, animated: true, completion: nil)
+                    }
+                }else {
+                    self.presentViewController(insurance, animated: true, completion: nil)
+                }
+                
+                })
+            self.presentViewController(insurance, animated: true, completion: nil)
+            
+            
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,7 +117,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     //Actions for when buttons are hit
     @IBAction func actionPlay(sender: AnyObject) {
         //Setup an invalid input prompt Just in case
-        var error = UIAlertController(title: "Bad Bet!", message: "You may bet up to \(bjGame.score) in increments of $1. Please try again!", preferredStyle: UIAlertControllerStyle.Alert)
+        let error = UIAlertController(title: "Bad Bet!", message: "You may bet up to \(bjGame.score) in increments of $1. Please try again!", preferredStyle: UIAlertControllerStyle.Alert)
         error.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default, nil))
         
         //Setup the betting prompt
@@ -106,6 +140,8 @@ class ViewController: UIViewController, UIAlertViewDelegate {
                     self.bjGame.start(bet)
                     self.uiGameState()
                     self.uiUpdateFields()
+                    
+                    self.uiInsurance()
                 }else {
                     self.presentViewController(error, animated: true, completion: nil)
                 }
@@ -142,6 +178,8 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     
     @IBAction func actionDouble() {
         bjGame.double()
+        uiUpdateFields()
+        
     }
     
     @IBAction func actionSplit() {
