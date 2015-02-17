@@ -135,33 +135,46 @@ class Hand {
         }
     }
     
-    //Calculates the score of the hand and returns a tuple, with the score
-    //where aces are treated as 1's and 11's respectively
-    func score() -> (score1: Int, score11: Int) {
-        return cards.map(){
+    //Calculates the score of the hand and returns the highest possible, most advantageous score
+    func score() -> Int {
+        var numberAces = 0
+        let score =  cards.filter() {
+            (c: Character) -> Bool in
+            if c == "A" {
+                numberAces += 1
+                return false
+            }else {
+                return true
+            }
+            }.map(){
             //Map the card character to a point value
-            (c:Character) -> (Int, Int) in
+            (c:Character) -> Int in
             switch c {
-            case "A":
-                return (1,11)
-                
+   
             case "J", "Q", "K":
-                return (10,10)
+                return 10
                 
             case "2", "3", "4", "5", "6", "7", "8", "9":
                 //Explicitly specifying the numbers instead of using _
                 //This way it's safe to forcibly unwrap the optional
-                let c_i: Int = String(c).toInt()!
-                return (c_i, c_i)
+                return String(c).toInt()!
             default:
                 //Something wacky, just play nice
-                return (0,0)
+                return 0
             }
-            }.reduce((0,0)) {
-                //Now combine the score tuples, and return it
-                (total: (Int, Int), ele: (Int, Int)) -> (Int, Int) in
-                (total.0 + ele.0, total.1 + ele.1)
+            }.reduce(0) { $0 + $1 }
+        
+        //Now deal with the aces
+        var candidate = numberAces * 11
+        while candidate != numberAces {
+            if candidate + score > 21 {
+                candidate -= 10
+            }else {
+                break
+            }
         }
+        
+        return score + candidate
         
     }
     
