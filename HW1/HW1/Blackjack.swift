@@ -9,7 +9,7 @@
 import UIKit
 
 //Array shuffling extension courtesy of:
-// http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift
+// https://gist.github.com/natecook1000/0ac03efe07f647b46dae
 extension Array {
     mutating func shuffle() {
         for i in 0..<(count - 1) {
@@ -18,6 +18,7 @@ extension Array {
         }
     }
 }
+//End code from Nate Cook
 
 class Blackjack {
     enum State {
@@ -48,7 +49,7 @@ class Blackjack {
     let deck = Deck()
     
     var state = State.Pre
-    var endgame: Result?
+    var endgame: [Result?] = [nil, nil, nil, nil]
     
     func start(bet: Int) -> State {
         state = statePre(bet)
@@ -87,6 +88,22 @@ class Blackjack {
     func canSplit() -> Bool {
         if state != State.Player {
             return false
+        }
+        
+        for index in 0..<player.cards.count {
+            let hand = player.cards[index]
+            
+            if hand.count == 2 {
+                //If the cards are the same
+                if (hand[0] == hand[1]) ||
+                    //Or if the cards are both face cards, we can split
+                    ( (hand[0] == "J" || hand[0] == "K" || hand[0] == "Q")
+                    && (hand[1] == "J" || hand[1] == "K" || hand[1] == "Q") ){
+                    
+                    //If the hand is inactive, we can split!
+                    return !player.activeHand[index]
+                }
+            }
         }
         
         return false
@@ -150,8 +167,6 @@ class Blackjack {
         player.addCard(0, c: deck.draw())
         dealer.addCard(0, c: deck.draw())
         dealer.addCard(0, c: deck.draw())
-//        dealer.addCard(0, c: "A")
-//        dealer.addCard(0, c: "Q")
         
         //If the dealer has a score of 21, and has an Ace revealed, we can get insurance
         if dealer.score(0) == 21 && dealer.peek(0) == "A" {
@@ -212,57 +227,77 @@ class Blackjack {
     }
     
     private func statePlayerSplit(hand: Int) -> State {
-        return State.Player
+        let newDeck = hand + 1
+        
+        player.activeHand[newDeck] = true
+        player.cards[newDeck].append(player.cards[hand][1])
+        player.cards[hand].removeAtIndex(1)
+        player.addCard(newDeck, c: deck.draw())
+        
+        if(player.allHandsOut()) {
+            return State.Dealer
+        }else {
+            return State.Player
+        }
     }
     
-    //Do the dealer's work, and evaluate who won
     private func stateDealer() -> State {
-        
         while dealer.score(0) <= 16 {
             dealer.addCard(0, c: deck.draw())
         }
         
-        let playerScore = player.score(0)
+        for x in 0..<player.cards.count {
+            endgame[x] = stateDealerCheckHand(x)
+        }
+        
+        
+        state = State.Post
+        return state
+    }
+    
+    //Do the dealer's work, and evaluate if the hand won
+    private func stateDealerCheckHand(h: Int) -> Result? {
+        if !player.activeHand[h] {
+            return nil
+        }
+        let playerScore = player.score(h)
         let dealerScore = dealer.score(0)
         
         if playerScore == 21 && dealerScore == 21 {
             //Possible tie, who has blackjack?
             if player.hasBlackjack() && dealer.hasBlackjack()  {
-                endgame = Result.Tie
                 cash += bet
+                return Result.Tie
             }else if player.hasBlackjack() {
                 //Player winsT
-                endgame = Result.Win
                 cash += (bet / 2) * 3
+                return Result.Win
             }else {
                 //Dealer wins, but maybe insurance?
-                endgame = Result.Lose
                 cash += 2 * insurance
+                return Result.Lose
             }
         }else if playerScore > 21 || dealerScore > 21 {
             if dealerScore > 21 && playerScore > 21 {
                 //Everyone loses
-                endgame = Result.Mad
+                return Result.Mad
             }else if playerScore > 21 {
                 //Dealer wins
-                endgame = Result.Lose
+                return Result.Lose
             }else {
                 //Player wins
-                endgame = Result.Win
+                return Result.Win
             }
         }else  {
             if playerScore > dealerScore || playerScore == dealerScore {
                 //Player wins or ties
-                endgame = playerScore == dealerScore ? Result.Tie : Result.Win
                 cash += bet
+                return playerScore == dealerScore ? Result.Tie : Result.Win
             }else {
                 //Dealer wins
-                endgame = Result.Lose
+                return Result.Lose
             }
         }
-        
-        state = State.Post
-        return state
     }
     
     private func statePost() -> State {
@@ -270,7 +305,7 @@ class Blackjack {
         bet = 0
         insurance = 0
         showHole = false
-        endgame = nil
+        endgame.removeAll(keepCapacity: true)
         round += 1
         
         if(round % 5 == 0) {
@@ -394,6 +429,22 @@ class Hands {
         }
         
         return score + candidate
+    }
+    
+    func handsCanSplit() -> [Bool] {
+        return cards.map() {
+            (hand: [Character]) -> Bool in
+            
+            if hand.count == 2 {
+                if (hand[0] == hand[1]) ||
+                    //Or if the cards are both face cards, we can split
+                    ( (hand[0] == "J" || hand[0] == "K" || hand[0] == "Q")
+                        && (hand[0] == "J" || hand[0] == "K" || hand[0] == "Q") ){
+                        return true
+                }
+            }
+            return false
+        }
         
     }
     

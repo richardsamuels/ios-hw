@@ -101,25 +101,23 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     func uiCheckLose() {
         self.uiUpdate()
         
-        if bjGame.endgame == Blackjack.Result.Win {
-            let endGame = UIAlertController(title: "You Won!", message: "Well done!", preferredStyle: UIAlertControllerStyle.Alert)
-            endGame.addAction(UIAlertAction(title: "Yay!", style:UIAlertActionStyle.Default){
-                (UIAlertAction a) in
-                self.bjGame.post()
-                })
-            self.presentViewController(endGame, animated: true, completion: nil)
+        if self.bjGame.state == Blackjack.State.Post {
+        
+            var messages:[String] = []
             
-        }else if bjGame.endgame == Blackjack.Result.Lose {
-            let endGame = UIAlertController(title: "You Lost!", message: "Better luck next time", preferredStyle: UIAlertControllerStyle.Alert)
-            endGame.addAction(UIAlertAction(title: ":(", style:UIAlertActionStyle.Default){
-                (UIAlertAction a) in
-                self.bjGame.post()
-                })
-            self.presentViewController(endGame, animated: true, completion: nil)
-            
-        }else if bjGame.endgame != nil {
-            let endGame = UIAlertController(title: "No winner!", message: "Better than the dealer winning right?", preferredStyle: UIAlertControllerStyle.Alert)
-            endGame.addAction(UIAlertAction(title: "...I guess so", style:UIAlertActionStyle.Default){
+            for (index, x) in enumerate(bjGame.endgame) {
+                if x == Blackjack.Result.Win {
+                    messages.append("Hand \(index): Win")
+                    
+                }else if x == Blackjack.Result.Lose {
+                    messages.append("Hand \(index): Lose ")
+                    
+                }else if x != nil {
+                    messages.append("Hand \(index): No winner")
+                }
+            }
+            let endGame = UIAlertController(title: "Game over", message: messages.reduce("", {$0! + $1 + "\n"}), preferredStyle: UIAlertControllerStyle.Alert)
+            endGame.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
                 self.bjGame.post()
                 })
@@ -251,6 +249,12 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     }
     
     @IBAction func actionSplit() {
+        uiSelectHandAnd("split", hands: self.bjGame.player.handsCanSplit()) {
+            (h: Int) -> Void in
+            self.bjGame.double(h)
+            self.uiUpdate()
+            self.uiCheckLose()
+        }
     }
     
     @IBAction func ui() {

@@ -412,6 +412,7 @@
 				4EE162C01A92878600A33CC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4EE162C11A92878600A33CC3 /* Build configuration list for PBXNativeTarget "HW1Tests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +421,7 @@
 				4EE162C31A92878600A33CC3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
