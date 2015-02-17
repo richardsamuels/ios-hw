@@ -257,7 +257,7 @@ class Blackjack {
     
     //Do the dealer's work, and evaluate if the hand won
     private func stateDealerCheckHand(h: Int) -> Result? {
-        if !player.activeHand[h] {
+        if player.cards[h].count == 0 {
             return nil
         }
         let playerScore = player.score(h)
@@ -305,7 +305,7 @@ class Blackjack {
         bet = 0
         insurance = 0
         showHole = false
-        endgame.removeAll(keepCapacity: true)
+        endgame = [nil, nil, nil, nil]
         round += 1
         
         if(round % 5 == 0) {

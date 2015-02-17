@@ -22,9 +22,6 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     }
     
     private func uiSelectHandAnd(action: String, hands: [Bool], callback: (Int) -> Void)  {
-//        if hands.count == 1 {
-//            return 1
-//        }
         let select = UIAlertController(title: "Select a hand", message: "You can \(action) on the following hands", preferredStyle: UIAlertControllerStyle.Alert)
         
         for (i,x) in enumerate(hands) {
@@ -40,6 +37,9 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     }
     
     func uiUpdate() {
+        //Debug button
+        uiUpdateButton.hidden = true
+        
         //State before a round has been started. Just show the Start button
         if bjGame.state == Blackjack.State.Pre || bjGame.state == Blackjack.State.Dealer {
             uiHit.hidden = true
@@ -51,9 +51,15 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             if bjGame.state != Blackjack.State.Dealer {
                 uiPlay.hidden = false
                 uiHandDealer.text = ""
-                uiHandPlayer1.text = ""
                 uiScoreDealer.text = ""
+                uiHandPlayer1.text = ""
                 uiScorePlayer1.text = ""
+                uiHandPlayer2.text = ""
+                uiScorePlayer2.text = ""
+                uiHandPlayer3.text = ""
+                uiScorePlayer3.text = ""
+                uiHandPlayer4.text = ""
+                uiScorePlayer4.text = ""
             }else {
                 uiPlay.hidden = true
             }
@@ -71,6 +77,23 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiScoreDealer.text = String(bjGame.dealer.score(0))
             uiHandPlayer1.text = bjGame.player.string(0, dealer: false)
             uiScorePlayer1.text = String(bjGame.player.score(0))
+            
+            if self.bjGame.player.activeHand[1] {
+                uiHandPlayer2.text = bjGame.player.string(1, dealer: false)
+                uiScorePlayer2.text = String(bjGame.player.score(1))
+                
+                if self.bjGame.player.activeHand[2] {
+                    uiHandPlayer3.text = bjGame.player.string(2, dealer: false)
+                    uiScorePlayer3.text = String(bjGame.player.score(2))
+                    
+                    if self.bjGame.player.activeHand[3] {
+                        uiHandPlayer4.text = bjGame.player.string(3, dealer: false)
+                        uiScorePlayer4.text = String(bjGame.player.score(3))
+                    }
+                    
+                }
+                
+            }
             
         }else {
             uiHit.hidden = false
@@ -107,15 +130,16 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             
             for (index, x) in enumerate(bjGame.endgame) {
                 if x == Blackjack.Result.Win {
-                    messages.append("Hand \(index): Win")
+                    messages.append("Hand \(index + 1): Win")
                     
                 }else if x == Blackjack.Result.Lose {
-                    messages.append("Hand \(index): Lose ")
+                    messages.append("Hand \(index + 1): Lose ")
                     
-                }else if x != nil {
-                    messages.append("Hand \(index): No winner")
+                }else if x == Blackjack.Result.Tie {
+                    messages.append("Hand \(index + 1): No winner")
                 }
             }
+            
             let endGame = UIAlertController(title: "Game over", message: messages.reduce("", {$0! + $1 + "\n"}), preferredStyle: UIAlertControllerStyle.Alert)
             endGame.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
@@ -261,6 +285,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         self.uiUpdate()
     }
     
+    @IBOutlet var uiUpdateButton: UIButton!
     @IBOutlet var uiScoreDealer: UILabel!
     @IBOutlet var uiHandDealer: UILabel!
     @IBOutlet var uiScorePlayer1: UILabel!
