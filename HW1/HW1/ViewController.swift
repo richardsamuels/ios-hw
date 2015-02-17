@@ -18,134 +18,145 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         
         //Now lets setup the initial interface.
         //Only the play button should be enabled.
-        uiDefaultState()
-        
+        uiUpdate()
     }
     
-    func uiPostRound() -> Void {
-        self.bjGame.endRound()
-        self.uiUpdateFields()
-        self.uiDefaultState()
-    }
-    
-    //Set the default state of the UI
-    //(Only the Play button should be enabled)
-    func uiDefaultState() {
-        uiPlay.hidden = false
-        uiHit.hidden = true
-        uiStand.hidden = true
-        uiDouble.hidden = true
-        uiSplit.hidden = true
-        uiSurrender.hidden = true
+    private func uiSelectHandAnd(action: String, hands: [Bool], callback: (Int) -> Void)  {
+//        if hands.count == 1 {
+//            return 1
+//        }
+        let select = UIAlertController(title: "Select a hand", message: "You can \(action) on the following hands", preferredStyle: UIAlertControllerStyle.Alert)
         
-        uiHandDealer.text = ""
-        uiHandPlayer1.text = ""
-        uiScoreDealer.text = ""
-        uiScorePlayer1.text = ""
-        
-    }
-    
-    func uiGameState() {
-        uiHit.hidden = false
-        uiStand.hidden = false
-        uiDouble.hidden = true
-        uiPlay.hidden = true
-        uiSurrender.hidden = false
-        
-        uiUpdateFields()
-    }
-    
-    func uiUpdateFields() {
-        uiCash.text = String(bjGame.score)
-        
-        if !bjGame.doubled && bjGame.bet <= bjGame.score {
-            uiDouble.hidden = false
+        for (i,x) in enumerate(hands) {
+            if x {
+                select.addAction(UIAlertAction(title: "Hand \(i + 1)", style:UIAlertActionStyle.Default) {
+                    (UIAlertAction a) in
+                    callback(i)
+                    })
+            }
+            
         }
-        
-        if bjGame.player.cards.count == 2 {
-            uiSurrender.hidden = false
-        }else {
-            uiSurrender.hidden = true
-        }
-        
-        if bjGame.doubled {
+        self.presentViewController(select, animated: true, completion: nil)
+    }
+    
+    func uiUpdate() {
+        //State before a round has been started. Just show the Start button
+        if bjGame.state == Blackjack.State.Pre || bjGame.state == Blackjack.State.Dealer {
             uiHit.hidden = true
             uiStand.hidden = true
             uiDouble.hidden = true
             uiSplit.hidden = true
             uiSurrender.hidden = true
+            
+            if bjGame.state != Blackjack.State.Dealer {
+                uiPlay.hidden = false
+                uiHandDealer.text = ""
+                uiHandPlayer1.text = ""
+                uiScoreDealer.text = ""
+                uiScorePlayer1.text = ""
+            }else {
+                uiPlay.hidden = true
+            }
+            
+        //State after a game has been started
+        }else if bjGame.state == Blackjack.State.Post {
+            uiPlay.hidden = false
+            uiHit.hidden = true
+            uiStand.hidden = true
+            uiDouble.hidden = true
+            uiSplit.hidden = true
+            uiSurrender.hidden = true
+            
+            uiHandDealer.text = bjGame.dealer.string(0, dealer: false)
+            uiScoreDealer.text = String(bjGame.dealer.score(0))
+            uiHandPlayer1.text = bjGame.player.string(0, dealer: false)
+            uiScorePlayer1.text = String(bjGame.player.score(0))
+            
+        }else {
+            uiHit.hidden = false
+            uiStand.hidden = false
+            uiDouble.hidden = true
+            uiPlay.hidden = true
+        
+            if bjGame.state == Blackjack.State.Insurance {
+                uiHandDealer.text = bjGame.dealer.string(0, dealer: true)
+                
+            }else {
+                uiHandDealer.text = bjGame.dealer.string(0, dealer: false)
+                uiScoreDealer.text = String(bjGame.dealer.score(0))
+            }
+            uiHandPlayer1.text = bjGame.player.string(0, dealer: false)
+            
+            uiScorePlayer1.text = String(bjGame.player.score(0))
         }
         
-        uiHandDealer.text = bjGame.dealer.string(dealer: !bjGame.showHole)
-        uiHandPlayer1.text = bjGame.player.string(dealer: false)
+        uiCash.text = String(bjGame.cash)
+        uiDouble.hidden = !bjGame.canDouble()
+        uiSplit.hidden = !bjGame.canSplit()
+        uiSurrender.hidden = !bjGame.canSurrender()
         
-        if bjGame.showHole {
-            uiScoreDealer.text = String(bjGame.dealer.score())
-        }
-        uiScorePlayer1.text = String(bjGame.player.score())
+//        uiCheckLose()
     }
     
     func uiCheckLose() {
+        self.uiUpdate()
         
-        if bjGame.winState.player {
+        if bjGame.endgame == Blackjack.Result.Win {
             let endGame = UIAlertController(title: "You Won!", message: "Well done!", preferredStyle: UIAlertControllerStyle.Alert)
             endGame.addAction(UIAlertAction(title: "Yay!", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
-                self.uiPostRound()
+                self.bjGame.post()
                 })
             self.presentViewController(endGame, animated: true, completion: nil)
             
-        }else if bjGame.winState.dealer {
+        }else if bjGame.endgame == Blackjack.Result.Lose {
             let endGame = UIAlertController(title: "You Lost!", message: "Better luck next time", preferredStyle: UIAlertControllerStyle.Alert)
             endGame.addAction(UIAlertAction(title: ":(", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
-                self.uiPostRound()
+                self.bjGame.post()
                 })
             self.presentViewController(endGame, animated: true, completion: nil)
             
-        }else if bjGame.winState.none {
+        }else if bjGame.endgame != nil {
             let endGame = UIAlertController(title: "No winner!", message: "Better than the dealer winning right?", preferredStyle: UIAlertControllerStyle.Alert)
             endGame.addAction(UIAlertAction(title: "...I guess so", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
-                self.uiPostRound()
+                self.bjGame.post()
                 })
             self.presentViewController(endGame, animated: true, completion: nil)
         }
     }
     
+    //Prompt the user for an insurance bet
     func uiInsurance() {
-        //Check if we need to offer insurance
-        let index = advance(uiHandDealer.text!.startIndex, 0)
-        if uiHandDealer.text![index] == "A" {
-            let insurance = UIAlertController(title: "Insurance", message: "You may place an insurance wager up to $\(bjGame.bet/2). (Enter 0 for no insurance)", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            var textField: UITextField?
-            
-            insurance.addTextFieldWithConfigurationHandler(){
-            (UITextField money) in
-                money.keyboardType = UIKeyboardType.NumberPad
-                money.placeholder = "0"
-                money.text = "0"
-                textField = money
-            }
-            
-            insurance.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default) {
-                (UIAlertAction a) in
-                if let bet = textField!.text.toInt() {
-                    if bet <= (self.bjGame.bet / 2)  {
-                        self.bjGame.insurance(bet)
-                    }else {
-                        self.presentViewController(insurance, animated: true, completion: nil)
-                    }
+        let insurance = UIAlertController(title: "Insurance", message: "You may place an insurance wager up to $\(bjGame.bet/2). (Enter 0 for no insurance)", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        var textField: UITextField?
+        
+        insurance.addTextFieldWithConfigurationHandler(){
+        (UITextField money) in
+            money.keyboardType = UIKeyboardType.NumberPad
+            money.placeholder = "0"
+            money.text = "0"
+            textField = money
+        }
+        
+        insurance.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default) {
+            (UIAlertAction a) in
+            if let bet = textField!.text.toInt() {
+                if bet <= (self.bjGame.bet / 2)  {
+                    self.bjGame.insurance(bet)
+                    self.uiUpdate()
                 }else {
                     self.presentViewController(insurance, animated: true, completion: nil)
                 }
-                
-                })
-            self.presentViewController(insurance, animated: true, completion: nil)
+            }else {
+                self.presentViewController(insurance, animated: true, completion: nil)
+            }
             
-            
-        }
+            })
+        self.presentViewController(insurance, animated: true, completion: nil)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -156,18 +167,18 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     //Actions for when buttons are hit
     @IBAction func actionPlay(sender: AnyObject) {
         //Setup an invalid input prompt Just in case
-        let error = UIAlertController(title: "Bad Bet!", message: "You may bet up to \(bjGame.score) in increments of $1. Please try again!", preferredStyle: UIAlertControllerStyle.Alert)
+        let error = UIAlertController(title: "Bad Bet!", message: "You may bet up to \(bjGame.cash) in increments of $1. Please try again!", preferredStyle: UIAlertControllerStyle.Alert)
         error.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default, nil))
         
         //Setup the betting prompt
-        let alert = UIAlertController(title: "Enter Your Bet", message: "You may bet up to \(bjGame.score) in increments of $1", preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "Enter Your Bet", message: "You may bet up to \(bjGame.cash) in increments of $1", preferredStyle: UIAlertControllerStyle.Alert)
         var textField: UITextField?
         
         //Add a textfield to collect some input from the user
         alert.addTextFieldWithConfigurationHandler() {
         (UITextField money) in
             money.keyboardType = UIKeyboardType.NumberPad
-            money.placeholder = String(self.bjGame.score)
+            money.placeholder = String(self.bjGame.cash)
             textField = money
         }
     
@@ -175,12 +186,15 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.Default) {
             (UIAlertAction a) in
             if let bet = textField!.text.toInt() {
-                if bet <= self.bjGame.score && bet > 0 {
-                    self.bjGame.start(bet)
-                    self.uiGameState()
-                    self.uiUpdateFields()
+                if bet <= self.bjGame.cash && bet > 0 {
+                    let state = self.bjGame.start(bet)
                     
-                    self.uiInsurance()
+                    if state == Blackjack.State.Insurance {
+                        self.uiInsurance()
+                    }
+                    
+                    self.uiUpdate()
+                    
                 }else {
                     self.presentViewController(error, animated: true, completion: nil)
                 }
@@ -202,36 +216,45 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Yes, I give up", style: UIAlertActionStyle.Destructive) {
             (UIAlertAction a) in
                 self.bjGame.surrender()
-                self.uiPostRound()
-//                self.uiCheckLose()
+                self.uiUpdate()
             })
         alert.addAction(UIAlertAction(title: "No, I'll keep playing", style: UIAlertActionStyle.Default, nil) )
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
     @IBAction func actionHit() {
-        bjGame.hit()
-        
-        uiUpdateFields()
-        
-        uiCheckLose()
+        uiSelectHandAnd("hit", hands: self.bjGame.player.activeHand ) {
+            (h: Int) -> Void in
+            self.bjGame.hit(h)
+            self.uiUpdate()
+            self.uiCheckLose()
+        }
     }
     
     @IBAction func actionStand() {
-        bjGame.showHole = true
-        uiUpdateFields()
-        bjGame.dealerActions()
-        uiUpdateFields()
-        uiCheckLose()
+        uiSelectHandAnd("stand", hands: self.bjGame.player.activeHand) {
+            (h: Int) -> Void in
+            self.bjGame.stand(h)
+            self.uiUpdate()
+            self.uiCheckLose()
+        }
+
     }
     
     @IBAction func actionDouble() {
-        bjGame.double()
-        uiUpdateFields()
-        uiCheckLose()
+        uiSelectHandAnd("double", hands: self.bjGame.player.activeHand) {
+            (h: Int) -> Void in
+            self.bjGame.double(h)
+            self.uiUpdate()
+            self.uiCheckLose()
+        }
     }
     
     @IBAction func actionSplit() {
+    }
+    
+    @IBAction func ui() {
+        self.uiUpdate()
     }
     
     @IBOutlet var uiScoreDealer: UILabel!

@@ -29,14 +29,17 @@ class Blackjack {
         case Surrender
     }
     
-    enum Action {
-        case Bet
-        case Insurance
+    enum Result {
+        case Win
+        case Lose
+        case Tie
+        case Mad
     }
     
     var cash = 100
     var bet = 0
     var insurance = 0
+    var round = 0
     private var showHole = false
     var doubled = false
     
@@ -45,20 +48,110 @@ class Blackjack {
     let deck = Deck()
     
     var state = State.Pre
+    var endgame: Result?
     
-    func start(bet: Int) {
+    func start(bet: Int) -> State {
         state = statePre(bet)
         
-//        return state
+        return state
+    }
+    
+    //Return true if the a double can be made
+    func canDouble() -> Bool {
+        if state != State.Player {
+            return false
+        }
+        
+        if cash < 2 * bet {
+            return false
+        }
+        
+        return !player.allHandsOut()
+    }
+    
+    func canSurrender() -> Bool {
+        if state != State.Player {
+            return false
+        }
+        
+        if player.cards[0].count != 2 {
+            return false
+        }
+        
+        if player.activeHand[1] || player.activeHand[2] || player.activeHand[3] {
+            return false
+        }
+        
+        return player.activeHand[0]
+    }
+    func canSplit() -> Bool {
+        if state != State.Player {
+            return false
+        }
+        
+        return false
+    }
+    
+    func hit(hand: Int) {
+        if state == State.Player && player.activeHand[hand] {
+            state = statePlayerHit(hand)
+        
+            if state == State.Dealer {
+                stateDealer()
+            }
+        }
+    }
+    
+    func stand(hand: Int) {
+        if state == State.Player && player.activeHand[hand] {
+            state = statePlayerStand(hand)
+            
+            if state == State.Dealer {
+                stateDealer()
+            }
+        }
+        
+    }
+    
+    func double(hand: Int) {
+        if state == State.Player && player.activeHand[hand] {
+            state = statePlayerDouble(hand)
+            
+            if state == State.Dealer {
+                stateDealer()
+            }
+        }
+    }
+    
+    func surrender() {
+        if state == State.Player && canSurrender() {
+            cash += bet/2
+            
+            state = statePost()
+        }
+    }
+    
+    func insurance(insurance: Int) {
+        state = stateInsurance(insurance)
+    }
+    
+    func post() {
+        state = State.Pre
+        statePost()
     }
     
     //Setup the Decks.
     private func statePre(bet: Int) -> State {
+        cash -= bet
+        self.bet = bet
+        
         //Draw cards for each player
         player.addCard(0, c: deck.draw())
         player.addCard(0, c: deck.draw())
         dealer.addCard(0, c: deck.draw())
         dealer.addCard(0, c: deck.draw())
+//        dealer.addCard(0, c: "A")
+//        dealer.addCard(0, c: "Q")
         
         //If the dealer has a score of 21, and has an Ace revealed, we can get insurance
         if dealer.score(0) == 21 && dealer.peek(0) == "A" {
@@ -76,7 +169,8 @@ class Blackjack {
         
         //Check if someone has blackjack; if so, then we're all done
         if player.score(0) == 21 || dealer.score(0) == 21 {
-            return State.Post
+            return State.Dealer
+            
         }else {
             return State.Player
         }
@@ -98,6 +192,7 @@ class Blackjack {
         bet *= 2
         
         player.addCard(hand, c: deck.draw())
+        player.activeHand[hand] = false
         
         if(player.allHandsOut()) {
             return State.Dealer
@@ -120,9 +215,54 @@ class Blackjack {
         return State.Player
     }
     
-    private func statePlayerSurrender() -> State {
-        cash += bet/2
-        return State.Post
+    //Do the dealer's work, and evaluate who won
+    private func stateDealer() -> State {
+        
+        while dealer.score(0) <= 16 {
+            dealer.addCard(0, c: deck.draw())
+        }
+        
+        let playerScore = player.score(0)
+        let dealerScore = dealer.score(0)
+        
+        if playerScore == 21 && dealerScore == 21 {
+            //Possible tie, who has blackjack?
+            if player.hasBlackjack() && dealer.hasBlackjack()  {
+                endgame = Result.Tie
+                cash += bet
+            }else if player.hasBlackjack() {
+                //Player winsT
+                endgame = Result.Win
+                cash += (bet / 2) * 3
+            }else {
+                //Dealer wins, but maybe insurance?
+                endgame = Result.Lose
+                cash += 2 * insurance
+            }
+        }else if playerScore > 21 || dealerScore > 21 {
+            if dealerScore > 21 && playerScore > 21 {
+                //Everyone loses
+                endgame = Result.Mad
+            }else if playerScore > 21 {
+                //Dealer wins
+                endgame = Result.Lose
+            }else {
+                //Player wins
+                endgame = Result.Win
+            }
+        }else  {
+            if playerScore > dealerScore || playerScore == dealerScore {
+                //Player wins or ties
+                endgame = playerScore == dealerScore ? Result.Tie : Result.Win
+                cash += bet
+            }else {
+                //Dealer wins
+                endgame = Result.Lose
+            }
+        }
+        
+        state = State.Post
+        return state
     }
     
     private func statePost() -> State {
@@ -130,16 +270,22 @@ class Blackjack {
         bet = 0
         insurance = 0
         showHole = false
+        endgame = nil
+        round += 1
         
-        player.reset()
-        dealer.reset()
-        deck.reset()
+        if(round % 5 == 0) {
+            deck.reset()
+        }else {
+            deck.pushback(player.reset())
+            deck.pushback(dealer.reset())
+        }
         
+        state = State.Pre
         return State.Pre
     }
     
     
-    
+    init() {}
 }
 
 
@@ -198,9 +344,14 @@ class Hands {
         return cards[hand][0]
     }
     
-    func reset() {
+    func reset() -> [Character] {
+        let temp = cards.reduce([]) {
+            (combine: [Character], next: [Character]) -> [Character] in
+            combine + next
+        }
         cards = [ [], [], [], [] ]
         activeHand = [true, false, false, false]
+        return temp
     }
     
     //Calculates the score of the hand and returns the highest possible, most advantageous score
@@ -235,7 +386,7 @@ class Hands {
         //Now deal with the aces
         var candidate = numberAces * 11
         while candidate != numberAces {
-            if candidate + score > 21 {
+            if (candidate + score) > 21 {
                 candidate -= 10
             }else {
                 break
@@ -244,6 +395,18 @@ class Hands {
         
         return score + candidate
         
+    }
+    
+    func hasBlackjack() -> Bool {
+        if activeHand[1] || activeHand[2] || activeHand[3] {
+            return false
+        }
+        
+        if cards[0].count != 2 || score(0) != 21 {
+            return false
+        }
+        
+       return true
     }
     
     init() {
@@ -279,6 +442,10 @@ class Deck {
         //Now shuffle the array
         //No built-in for this, so we're using an extension to Array from Nate Cook
         deck.shuffle()
+    }
+    
+    func pushback(c: [Character]) {
+        deck += c
     }
     
     init() {
