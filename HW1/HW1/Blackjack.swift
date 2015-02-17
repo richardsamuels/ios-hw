@@ -19,14 +19,12 @@ extension Array {
     }
 }
 
-//class Blackjack: UITextViewDelegate {
 class Blackjack {
-    //    UITextView text;
-    
     var score = 100
     var bet = 0;
     var round = 0
     var isDealer = false
+    var doubled = false
     
     let dealer = Hand()
     let player = Hand()
@@ -39,17 +37,26 @@ class Blackjack {
     }
     
     func double() {
-        let h = isDealer ? dealer : player
+        doubled = true
+        score -= bet
+        bet *= 2
+        hit()
     }
     
     func start(bet: Int) {
         self.bet = bet
         self.score -= bet
+        
+        player.addCard(deck.draw())
+        player.addCard(deck.draw())
+        dealer.addCard(deck.draw())
+        dealer.addCard(deck.draw())
     }
     
     func endRound() {
         round += 1
         isDealer = false
+        doubled = false
         dealer.cards.removeAll()
         player.cards.removeAll()
         deck.reset()
@@ -78,15 +85,8 @@ class Deck {
     func reset() {
         deck.removeAll(keepCapacity: true)
         
-        //Fill the deck with the numerical cards
-        for i in 2...10 {
-            for _ in 1...4 {
-                deck.append(Character(UnicodeScalar(i)))
-            }
-        }
-        
         //Now do the same with the face cards
-        let set: [Character] = ["A", "J", "Q", "K"]
+        let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
         for c in set {
             for _ in 1...4 {
                 deck.append(c)
@@ -95,7 +95,7 @@ class Deck {
         
         //Now shuffle the array
         //No built-in for this, so we're using the Fisher-Yates shuffle for this
-        deck.shuffle()
+//        deck.shuffle()
     }
     
     init() {
