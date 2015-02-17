@@ -64,8 +64,15 @@ class Blackjack {
         
         player.addCard(deck.draw())
         player.addCard(deck.draw())
-        dealer.addCard(deck.draw())
-        dealer.addCard(deck.draw())
+//        dealer.addCard(deck.draw())
+//        dealer.addCard(deck.draw())
+        dealer.addCard("A")
+        dealer.addCard("Q")
+        
+        if player.score() == 21 {
+            showHole = true
+            resolveEndgame()
+        }
     }
     
     func endRound() {
@@ -95,26 +102,39 @@ class Blackjack {
         let playerScore = player.score()
         let dealerScore = dealer.score()
         //Push condition
-        if player.cards.count == 2 && dealer.cards.count == 2 && playerScore == 21 && dealerScore == 21 {
+        if playerScore == dealerScore{
             //Return bet
             score += bet
-            score += insurance
-            winState = (true, true, false)
+            winState = (false, false, true)
+            
         }else if dealerScore > 21 {
             //Dealer busts, if the player has at least one score at or under 21, they're good
             if playerScore == 21 {
                 //Blackjack!
                 score += (bet / 2 ) * 3
                 winState = (true,false, false)
+                
             }else if playerScore < 21 {
                 score += bet
                 winState = (true,false, false)
+                
             }else {
                 winState = (false, false, true)
             }
-        }else {
+        }else if playerScore > 21 {
             //Player score over 21
-            winState = (false, true, true)
+            winState = (false, true, false)
+        }else {
+            if playerScore >= dealerScore {
+                score += bet
+                winState.player = true
+            }
+            
+            if dealerScore >= playerScore {
+                winState.dealer = true
+            }
+            
+            winState.none = false
         }
     }
     
@@ -150,7 +170,7 @@ class Deck {
         
         //Now shuffle the array
         //No built-in for this, so we're using the Fisher-Yates shuffle for this
-//        deck.shuffle()
+        deck.shuffle()
     }
     
     init() {

@@ -104,7 +104,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             self.presentViewController(endGame, animated: true, completion: nil)
             
         }else if bjGame.winState.none {
-            let endGame = UIAlertController(title: "Everyone Lost!", message: "Better than the dealer winning right?", preferredStyle: UIAlertControllerStyle.Alert)
+            let endGame = UIAlertController(title: "No winner!", message: "Better than the dealer winning right?", preferredStyle: UIAlertControllerStyle.Alert)
             endGame.addAction(UIAlertAction(title: "...I guess so", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
                 self.uiPostRound()
@@ -125,6 +125,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             (UITextField money) in
                 money.keyboardType = UIKeyboardType.NumberPad
                 money.placeholder = "0"
+                money.text = "0"
                 textField = money
             }
             
