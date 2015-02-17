@@ -31,18 +31,48 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         uiDouble.hidden = true
         uiSplit.hidden = true
         uiSurrender.hidden = true
+        
+        uiHandDealer.text = ""
+        uiHandPlayer1.text = ""
+        uiScoreDealer.text = ""
+        uiScorePlayer1.text = ""
+        
     }
     
     func uiGameState() {
         uiHit.hidden = false
         uiStand.hidden = false
-        uiDouble.hidden = false
+        uiDouble.hidden = true
         uiPlay.hidden = true
         uiSurrender.hidden = false
+        
+        uiUpdateFields()
     }
     
     func uiUpdateFields() {
         uiCash.text = String(bjGame.score)
+        
+        if !bjGame.doubled && bjGame.bet <= bjGame.score {
+            uiDouble.hidden = false
+        }
+        
+        if bjGame.doubled {
+            uiHit.hidden = true
+            uiStand.hidden = true
+            uiDouble.hidden = true
+            uiSplit.hidden = true
+            uiSurrender.hidden = true
+        }
+        
+        uiHandDealer.text = bjGame.dealer.string(dealer: true)
+        uiHandPlayer1.text = bjGame.player.string(dealer: false)
+        
+        uiScoreDealer.text = String(bjGame.dealer.score())
+        uiScorePlayer1.text = String(bjGame.player.score())
+    }
+    
+    func uiCheckLose() {
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,8 +127,8 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Yes, I give up", style: UIAlertActionStyle.Destructive) {
             (UIAlertAction a) in
                 self.bjGame.surrender()
-                self.uiDefaultState()
                 self.uiUpdateFields()
+                self.uiDefaultState()
             })
         alert.addAction(UIAlertAction(title: "No, I'll keep playing", style: UIAlertActionStyle.Default, nil) )
         self.presentViewController(alert, animated: true, completion: nil)
@@ -111,16 +141,21 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     }
     
     @IBAction func actionDouble() {
+        bjGame.double()
     }
     
     @IBAction func actionSplit() {
     }
     
-    @IBOutlet  var uiHit: UIButton!
-    @IBOutlet  var uiStand: UIButton!
-    @IBOutlet  var uiDouble: UIButton!
-    @IBOutlet  var uiSplit: UIButton!
-    @IBOutlet  var uiPlay: UIButton!
-    @IBOutlet  var uiSurrender: UIButton!
-    @IBOutlet  var uiCash: UILabel!
+    @IBOutlet var uiScoreDealer: UILabel!
+    @IBOutlet var uiHandDealer: UILabel!
+    @IBOutlet var uiScorePlayer1: UILabel!
+    @IBOutlet var uiHandPlayer1: UILabel!
+    @IBOutlet var uiHit: UIButton!
+    @IBOutlet var uiStand: UIButton!
+    @IBOutlet var uiDouble: UIButton!
+    @IBOutlet var uiSplit: UIButton!
+    @IBOutlet var uiPlay: UIButton!
+    @IBOutlet var uiSurrender: UIButton!
+    @IBOutlet var uiCash: UILabel!
 }

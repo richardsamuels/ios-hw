@@ -17,13 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NlI-Hk-gLz">
-                                <rect key="frame" x="16" y="20" width="568" height="455"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ao-3J-MoH">
                                 <rect key="frame" x="16" y="550" width="49" height="30"/>
                                 <state key="normal" title="Double">
@@ -93,34 +86,98 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blackjack!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9E-e3-xeF">
+                                <rect key="frame" x="16" y="20" width="78.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dealer: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeG-fg-7dN">
+                                <rect key="frame" x="16" y="121" width="59" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cFG-Ca-2W7">
+                                <rect key="frame" x="83" y="121" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LpG-c9-XIN">
+                                <rect key="frame" x="16" y="177" width="53" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Scores" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIA-og-qrS">
+                                <rect key="frame" x="530" y="60" width="54" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hd-kw-iGb">
+                                <rect key="frame" x="83" y="177" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKO-zR-DRR">
+                                <rect key="frame" x="536" y="121" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVz-X7-kWS">
+                                <rect key="frame" x="536" y="177" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Soa-pN-q6a" firstAttribute="top" secondItem="p0n-rK-lv0" secondAttribute="bottom" constant="8" id="1f8-Tc-tXu"/>
                             <constraint firstItem="5ao-3J-MoH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="2yJ-48-ZeJ"/>
-                            <constraint firstItem="NlI-Hk-gLz" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="FRe-Rl-Hz7"/>
-                            <constraint firstItem="NlI-Hk-gLz" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="HZz-mg-Jum"/>
+                            <constraint firstItem="2hd-kw-iGb" firstAttribute="leading" secondItem="LpG-c9-XIN" secondAttribute="trailing" constant="14" id="4T7-sM-EbD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="BKO-zR-DRR" secondAttribute="trailing" constant="6" id="8Nj-Wf-3ND"/>
+                            <constraint firstItem="EeG-fg-7dN" firstAttribute="top" secondItem="F9E-e3-xeF" secondAttribute="bottom" constant="80.5" id="JZM-B0-dbu"/>
+                            <constraint firstItem="UIA-og-qrS" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="Jpy-MF-8uZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Soa-pN-q6a" secondAttribute="trailing" constant="6" id="KTA-uL-406"/>
+                            <constraint firstItem="cFG-Ca-2W7" firstAttribute="leading" secondItem="EeG-fg-7dN" secondAttribute="trailing" constant="8" id="L3i-fR-cG9"/>
+                            <constraint firstItem="cFG-Ca-2W7" firstAttribute="top" secondItem="F9E-e3-xeF" secondAttribute="bottom" constant="80.5" id="NUR-qZ-Kk0"/>
                             <constraint firstItem="odm-WR-kGn" firstAttribute="top" secondItem="n8F-EF-0YJ" secondAttribute="bottom" constant="8" id="Ni4-0w-Aa7"/>
                             <constraint firstItem="n8F-EF-0YJ" firstAttribute="leading" secondItem="bOe-Lw-JbX" secondAttribute="trailing" constant="44" id="QF1-0x-njy"/>
+                            <constraint firstItem="F9E-e3-xeF" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="QUS-6j-b3T"/>
+                            <constraint firstItem="BKO-zR-DRR" firstAttribute="top" secondItem="UIA-og-qrS" secondAttribute="bottom" constant="39.5" id="RAI-eU-5YN"/>
                             <constraint firstItem="odm-WR-kGn" firstAttribute="leading" secondItem="5ao-3J-MoH" secondAttribute="trailing" constant="39" id="VHf-Oh-pum"/>
-                            <constraint firstItem="lyX-6v-pdV" firstAttribute="top" secondItem="NlI-Hk-gLz" secondAttribute="bottom" constant="8" id="X6L-9T-bT9"/>
+                            <constraint firstItem="EeG-fg-7dN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="XC1-oB-NsU"/>
                             <constraint firstItem="5ao-3J-MoH" firstAttribute="top" secondItem="bOe-Lw-JbX" secondAttribute="bottom" constant="8" id="Z23-qm-eIn"/>
+                            <constraint firstItem="aVz-X7-kWS" firstAttribute="top" secondItem="BKO-zR-DRR" secondAttribute="bottom" constant="35" id="abu-8c-lYR"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Soa-pN-q6a" secondAttribute="bottom" constant="20" id="c5J-Bg-WOn"/>
+                            <constraint firstItem="LpG-c9-XIN" firstAttribute="top" secondItem="EeG-fg-7dN" secondAttribute="bottom" constant="35" id="eFt-SM-6F7"/>
                             <constraint firstItem="bOe-Lw-JbX" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="9" id="eHl-EX-9N6"/>
+                            <constraint firstItem="2hd-kw-iGb" firstAttribute="top" secondItem="cFG-Ca-2W7" secondAttribute="bottom" constant="35" id="hnU-0G-mGP"/>
                             <constraint firstItem="p0n-rK-lv0" firstAttribute="top" secondItem="lyX-6v-pdV" secondAttribute="bottom" constant="8" id="hoD-Oq-JOC"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="odm-WR-kGn" secondAttribute="bottom" constant="20" id="k2N-BC-L7J"/>
-                            <constraint firstItem="NlI-Hk-gLz" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="mxM-T5-j51"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aVz-X7-kWS" secondAttribute="trailing" constant="6" id="ntv-e1-R0M"/>
+                            <constraint firstItem="F9E-e3-xeF" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="odr-9w-eTG"/>
+                            <constraint firstItem="UIA-og-qrS" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="40" id="r0E-Jf-US5"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="5ao-3J-MoH" secondAttribute="bottom" constant="20" id="wBr-0W-nxr"/>
                             <constraint firstItem="p0n-rK-lv0" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="ydx-cU-IoP"/>
+                            <constraint firstItem="LpG-c9-XIN" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="z39-19-CQx"/>
                             <constraint firstAttribute="trailingMargin" secondItem="lyX-6v-pdV" secondAttribute="trailing" constant="19" id="zE0-pn-jU6"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="uiCash" destination="lyX-6v-pdV" id="qNI-e1-EyM"/>
                         <outlet property="uiDouble" destination="5ao-3J-MoH" id="G8s-zZ-dW7"/>
+                        <outlet property="uiHandDealer" destination="cFG-Ca-2W7" id="ddc-sF-xC1"/>
+                        <outlet property="uiHandPlayer1" destination="2hd-kw-iGb" id="iYf-6c-HeQ"/>
                         <outlet property="uiHit" destination="bOe-Lw-JbX" id="dhe-wS-WTY"/>
                         <outlet property="uiPlay" destination="p0n-rK-lv0" id="M6o-QK-8To"/>
+                        <outlet property="uiScoreDealer" destination="BKO-zR-DRR" id="RZ2-6f-V8P"/>
+                        <outlet property="uiScorePlayer1" destination="aVz-X7-kWS" id="Hzm-YN-73c"/>
                         <outlet property="uiSplit" destination="odm-WR-kGn" id="tAQ-gp-1zH"/>
                         <outlet property="uiStand" destination="n8F-EF-0YJ" id="BMb-te-ukv"/>
                         <outlet property="uiSurrender" destination="Soa-pN-q6a" id="ZDG-AB-R7J"/>
