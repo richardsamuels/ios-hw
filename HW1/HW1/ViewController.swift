@@ -265,6 +265,12 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     @IBOutlet var uiHandDealer: UILabel!
     @IBOutlet var uiScorePlayer1: UILabel!
     @IBOutlet var uiHandPlayer1: UILabel!
+    @IBOutlet var uiScorePlayer2: UILabel!
+    @IBOutlet var uiHandPlayer2: UILabel!
+    @IBOutlet var uiScorePlayer3: UILabel!
+    @IBOutlet var uiHandPlayer3: UILabel!
+    @IBOutlet var uiScorePlayer4: UILabel!
+    @IBOutlet var uiHandPlayer4: UILabel!
     @IBOutlet var uiHit: UIButton!
     @IBOutlet var uiStand: UIButton!
     @IBOutlet var uiDouble: UIButton!
