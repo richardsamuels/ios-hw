@@ -20,189 +20,172 @@ extension Array {
 }
 
 class Blackjack {
-    var score = 100
+    enum State {
+        case Pre
+        case Insurance
+        case Player
+        case Dealer
+        case Post
+        case Surrender
+    }
+    
+    enum Action {
+        case Bet
+        case Insurance
+    }
+    
+    var cash = 100
     var bet = 0
     var insurance = 0
-    var round = 0
-    var showHole = false
+    private var showHole = false
     var doubled = false
-    var winState = (player: false, dealer: false, none: false)
     
-    let dealer = Hand()
-    let player = Hand()
+    let dealer = Hands()
+    let player = Hands()
     let deck = Deck()
     
-    func dealerActions() {
-        showHole = true
-        while dealer.score() < 16 {
-            dealer.addCard(deck.draw())
-        }
-        
-        resolveEndgame()
-    }
-    
-    func hit() {
-        player.addCard(deck.draw())
-        
-        if(player.score() >= 21) {
-            resolveEndgame()
-        }
-    }
-    
-    func double() {
-        doubled = true
-        score -= bet
-        bet *= 2
-        hit()
-        
-        dealerActions()
-    }
+    var state = State.Pre
     
     func start(bet: Int) {
-        self.bet = bet
-        self.score -= bet
+        state = statePre(bet)
         
-        player.addCard(deck.draw())
-        player.addCard(deck.draw())
-//        dealer.addCard(deck.draw())
-//        dealer.addCard(deck.draw())
-        dealer.addCard("A")
-        dealer.addCard("Q")
-        
-        if player.score() == 21 {
-            showHole = true
-            resolveEndgame()
-        }
+//        return state
     }
     
-    func endRound() {
-        round += 1
-        showHole = false
-        doubled = false
-        winState = (false,false, false)
-        insurance = 0
-        bet = 0
-        dealer.cards.removeAll()
-        player.cards.removeAll()
-        deck.reset()
-    }
-    
-    func insurance(bet: Int) {
-        score -= bet
-        insurance = bet
+    //Setup the Decks.
+    private func statePre(bet: Int) -> State {
+        //Draw cards for each player
+        player.addCard(0, c: deck.draw())
+        player.addCard(0, c: deck.draw())
+        dealer.addCard(0, c: deck.draw())
+        dealer.addCard(0, c: deck.draw())
         
-        //At this point, if the score is 21, it's blackjack
-        if(dealer.score() == 21) {
-            score += (2 * insurance)
-            resolveEndgame()
-        }
-    }
-    
-    func resolveEndgame() {
-        let playerScore = player.score()
-        let dealerScore = dealer.score()
-        //Push condition
-        if playerScore == dealerScore{
-            //Return bet
-            score += bet
-            winState = (false, false, true)
-            
-        }else if dealerScore > 21 {
-            //Dealer busts, if the player has at least one score at or under 21, they're good
-            if playerScore == 21 {
-                //Blackjack!
-                score += (bet / 2 ) * 3
-                winState = (true,false, false)
-                
-            }else if playerScore < 21 {
-                score += bet
-                winState = (true,false, false)
-                
-            }else {
-                winState = (false, false, true)
-            }
-        }else if playerScore > 21 {
-            //Player score over 21
-            winState = (false, true, false)
+        //If the dealer has a score of 21, and has an Ace revealed, we can get insurance
+        if dealer.score(0) == 21 && dealer.peek(0) == "A" {
+            return State.Insurance
         }else {
-            if playerScore >= dealerScore {
-                score += bet
-                winState.player = true
-            }
-            
-            if dealerScore >= playerScore {
-                winState.dealer = true
-            }
-            
-            winState.none = false
+            //Otherwise, they don't get it
+            return stateInsurance(0)
         }
     }
     
-    //Called when the player wishes to surrender. ends the round, and updates their score
-    func surrender() {
-        score += bet/2
+    //Set insurance, and move onto the next state depending on scores
+    private func stateInsurance(insurance: Int) -> State {
+        showHole = true
+        self.insurance = insurance
         
+        //Check if someone has blackjack; if so, then we're all done
+        if player.score(0) == 21 || dealer.score(0) == 21 {
+            return State.Post
+        }else {
+            return State.Player
+        }
     }
+    
+    private func statePlayerHit(hand: Int) -> State {
+        player.addCard(hand, c: deck.draw())
+        
+        if(player.allHandsOut()) {
+            return State.Dealer
+        }else {
+            return State.Player
+        }
+    }
+    
+    private func statePlayerDouble(hand: Int) -> State{
+        doubled = true
+        cash -= bet
+        bet *= 2
+        
+        player.addCard(hand, c: deck.draw())
+        
+        if(player.allHandsOut()) {
+            return State.Dealer
+        }else {
+            return State.Player
+        }
+    }
+    
+    private func statePlayerStand(hand: Int) -> State {
+        player.activeHand[hand] = false
+        
+        if(player.allHandsOut()) {
+            return State.Dealer
+        }else {
+            return State.Player
+        }
+    }
+    
+    private func statePlayerSplit(hand: Int) -> State {
+        return State.Player
+    }
+    
+    private func statePlayerSurrender() -> State {
+        cash += bet/2
+        return State.Post
+    }
+    
+    private func statePost() -> State {
+        doubled = false
+        bet = 0
+        insurance = 0
+        showHole = false
+        
+        player.reset()
+        dealer.reset()
+        deck.reset()
+        
+        return State.Pre
+    }
+    
+    
     
 }
 
-class Deck {
-    var deck: [Character] = []
-    
-    func draw() -> Character {
-        if deck.count == 0 {
-            reset()
-        }
-        
-        return self.deck.removeAtIndex(0)
-    }
-    
-    func reset() {
-        deck.removeAll(keepCapacity: true)
-        
-        //Now do the same with the face cards
-        let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
-        for c in set {
-            for _ in 1...4 {
-                deck.append(c)
-            }
-        }
-        
-        //Now shuffle the array
-        //No built-in for this, so we're using the Fisher-Yates shuffle for this
-        deck.shuffle()
-    }
-    
-    init() {
-        reset();
-    }
-}
 
-class Hand {
-    var cards:[Character] = []
+
+class Hands {
+    private var cards:[[Character]] = [ [], [], [], [] ]
     
-    func addCard(c: Character) {
+    //if true, that hand is active (i.e. we can do stuff to it)
+    var activeHand: [Bool] = [true, false, false, false]
+    
+    //Return true if all hands have busted, or are otherwise disabled (i.e. Double, stand, etc.)
+    func allHandsOut() ->Bool {
+        if !activeHand[0] && !activeHand[1] && !activeHand[2] && !activeHand[3] {
+            return true
+        }else {
+            return false
+        }
+    }
+    
+    //Add a given card c to a deck hand
+    func addCard(hand: Int, c: Character) {
         switch c {
         case "A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9":
-            cards.append(c);
+            cards[hand].append(c);
             
         default:
             break
         }
+        
+        if(score(hand) > 21) {
+            activeHand[hand] = false
+        }
     }
     
     //Return a string representation of the hand
-    func string(dealer: Bool = false) -> String {
+    func string(hand: Int, dealer: Bool = false) -> String {
         if dealer {
-            if let c = cards.last {
-                return [c] + " and \(cards.count - 1) other cards"
+            if let c = cards[hand].last {
+                return [c] + " and \(cards[hand].count - 1) other card"
             }else {
                 //This should never happen
                 return "Empty hand???"
             }
             
         }else {
-            return cards.reduce("") {
+            return cards[hand].reduce("") {
                 (retString: String, c: Character) -> String in
                 retString + " " + [c]
             }
@@ -210,10 +193,20 @@ class Hand {
         }
     }
     
+    //Peek at the top of a hand
+    func peek(hand: Int) -> Character {
+        return cards[hand][0]
+    }
+    
+    func reset() {
+        cards = [ [], [], [], [] ]
+        activeHand = [true, false, false, false]
+    }
+    
     //Calculates the score of the hand and returns the highest possible, most advantageous score
-    func score() -> Int {
+    func score(hand: Int) -> Int {
         var numberAces = 0
-        let score =  cards.filter() {
+        let score =  cards[hand].filter() {
             (c: Character) -> Bool in
             if c == "A" {
                 numberAces += 1
@@ -255,5 +248,40 @@ class Hand {
     
     init() {
         
+    }
+}
+
+
+class Deck {
+    private var deck: [Character] = []
+    
+    //Draw from the top of the deck, returning the character
+    func draw() -> Character {
+        if deck.count == 0 {
+            reset()
+        }
+        
+        return self.deck.removeAtIndex(0)
+    }
+    
+    //Generate a new, randomly shuffled deck
+    func reset() {
+        deck.removeAll(keepCapacity: true)
+        
+        //Now do the same with the face cards
+        let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
+        for c in set {
+            for _ in 1...4 {
+                deck.append(c)
+            }
+        }
+        
+        //Now shuffle the array
+        //No built-in for this, so we're using an extension to Array from Nate Cook
+        deck.shuffle()
+    }
+    
+    init() {
+        reset();
     }
 }
