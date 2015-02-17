@@ -24,17 +24,29 @@ class Blackjack {
     var bet = 0
     var insurance = 0
     var round = 0
-    var isDealer = false
+    var showHole = false
     var doubled = false
+    var winState = (player: false, dealer: false, none: false)
     
     let dealer = Hand()
     let player = Hand()
     let deck = Deck()
     
-    func hit() {
-        let h = isDealer ? dealer : player
+    func dealerActions() {
+        showHole = true
+        while dealer.score() < 16 {
+            dealer.addCard(deck.draw())
+        }
         
-        h.addCard(deck.draw())
+        resolveEndgame()
+    }
+    
+    func hit() {
+        player.addCard(deck.draw())
+        
+        if(player.score() >= 21) {
+            resolveEndgame()
+        }
     }
     
     func double() {
@@ -42,6 +54,8 @@ class Blackjack {
         score -= bet
         bet *= 2
         hit()
+        
+        dealerActions()
     }
     
     func start(bet: Int) {
@@ -56,8 +70,11 @@ class Blackjack {
     
     func endRound() {
         round += 1
-        isDealer = false
+        showHole = false
         doubled = false
+        winState = (false,false, false)
+        insurance = 0
+        bet = 0
         dealer.cards.removeAll()
         player.cards.removeAll()
         deck.reset()
@@ -75,14 +92,36 @@ class Blackjack {
     }
     
     func resolveEndgame() {
-        
+        let playerScore = player.score()
+        let dealerScore = dealer.score()
+        //Push condition
+        if player.cards.count == 2 && dealer.cards.count == 2 && playerScore == 21 && dealerScore == 21 {
+            //Return bet
+            score += bet
+            score += insurance
+            winState = (true, true, false)
+        }else if dealerScore > 21 {
+            //Dealer busts, if the player has at least one score at or under 21, they're good
+            if playerScore == 21 {
+                //Blackjack!
+                score += (bet / 2 ) * 3
+                winState = (true,false, false)
+            }else if playerScore < 21 {
+                score += bet
+                winState = (true,false, false)
+            }else {
+                winState = (false, false, true)
+            }
+        }else {
+            //Player score over 21
+            winState = (false, true, true)
+        }
     }
     
     //Called when the player wishes to surrender. ends the round, and updates their score
     func surrender() {
         score += bet/2
         
-        endRound()
     }
     
 }
@@ -120,7 +159,7 @@ class Deck {
 }
 
 class Hand {
-    private var cards:[Character] = []
+    var cards:[Character] = []
     
     func addCard(c: Character) {
         switch c {

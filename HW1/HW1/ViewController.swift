@@ -22,6 +22,12 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         
     }
     
+    func uiPostRound() -> Void {
+        self.bjGame.endRound()
+        self.uiUpdateFields()
+        self.uiDefaultState()
+    }
+    
     //Set the default state of the UI
     //(Only the Play button should be enabled)
     func uiDefaultState() {
@@ -56,6 +62,12 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiDouble.hidden = false
         }
         
+        if bjGame.player.cards.count == 2 {
+            uiSurrender.hidden = false
+        }else {
+            uiSurrender.hidden = true
+        }
+        
         if bjGame.doubled {
             uiHit.hidden = true
             uiStand.hidden = true
@@ -64,20 +76,46 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiSurrender.hidden = true
         }
         
-        uiHandDealer.text = bjGame.dealer.string(dealer: false)
+        uiHandDealer.text = bjGame.dealer.string(dealer: !bjGame.showHole)
         uiHandPlayer1.text = bjGame.player.string(dealer: false)
         
-        uiScoreDealer.text = String(bjGame.dealer.score())
+        if bjGame.showHole {
+            uiScoreDealer.text = String(bjGame.dealer.score())
+        }
         uiScorePlayer1.text = String(bjGame.player.score())
     }
     
     func uiCheckLose() {
         
+        if bjGame.winState.player {
+            let endGame = UIAlertController(title: "You Won!", message: "Well done!", preferredStyle: UIAlertControllerStyle.Alert)
+            endGame.addAction(UIAlertAction(title: "Yay!", style:UIAlertActionStyle.Default){
+                (UIAlertAction a) in
+                self.uiPostRound()
+                })
+            self.presentViewController(endGame, animated: true, completion: nil)
+            
+        }else if bjGame.winState.dealer {
+            let endGame = UIAlertController(title: "You Lost!", message: "Better luck next time", preferredStyle: UIAlertControllerStyle.Alert)
+            endGame.addAction(UIAlertAction(title: ":(", style:UIAlertActionStyle.Default){
+                (UIAlertAction a) in
+                self.uiPostRound()
+                })
+            self.presentViewController(endGame, animated: true, completion: nil)
+            
+        }else if bjGame.winState.none {
+            let endGame = UIAlertController(title: "Everyone Lost!", message: "Better than the dealer winning right?", preferredStyle: UIAlertControllerStyle.Alert)
+            endGame.addAction(UIAlertAction(title: "...I guess so", style:UIAlertActionStyle.Default){
+                (UIAlertAction a) in
+                self.uiPostRound()
+                })
+            self.presentViewController(endGame, animated: true, completion: nil)
+        }
     }
     
     func uiInsurance() {
         //Check if we need to offer insurance
-        let index = advance(uiHandDealer.text!.startIndex, 1)
+        let index = advance(uiHandDealer.text!.startIndex, 0)
         if uiHandDealer.text![index] == "A" {
             let insurance = UIAlertController(title: "Insurance", message: "You may place an insurance wager up to $\(bjGame.bet/2). (Enter 0 for no insurance)", preferredStyle: UIAlertControllerStyle.Alert)
             
@@ -163,23 +201,33 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Yes, I give up", style: UIAlertActionStyle.Destructive) {
             (UIAlertAction a) in
                 self.bjGame.surrender()
-                self.uiUpdateFields()
-                self.uiDefaultState()
+                self.uiPostRound()
+//                self.uiCheckLose()
             })
         alert.addAction(UIAlertAction(title: "No, I'll keep playing", style: UIAlertActionStyle.Default, nil) )
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
     @IBAction func actionHit() {
+        bjGame.hit()
+        
+        uiUpdateFields()
+        
+        uiCheckLose()
     }
     
     @IBAction func actionStand() {
+        bjGame.showHole = true
+        uiUpdateFields()
+        bjGame.dealerActions()
+        uiUpdateFields()
+        uiCheckLose()
     }
     
     @IBAction func actionDouble() {
         bjGame.double()
         uiUpdateFields()
-        
+        uiCheckLose()
     }
     
     @IBAction func actionSplit() {
