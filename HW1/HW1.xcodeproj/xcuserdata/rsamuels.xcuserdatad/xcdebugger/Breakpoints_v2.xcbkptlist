@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "HW1/ViewController.swift"
+            timestampString = "445909602.842275"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "uiCheckLose()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HW1.ViewController.(uiCheckLose (HW1.ViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "HW1"
+                  urlString = "file:///Users/rsamuels/school/new/HW1/HW1/ViewController.swift"
+                  timestampString = "445909721.921108"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "55">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "reabstraction thunk helper from @callee_owned (@owned Swift.Optional&lt;Swift.String&gt;, @owned Swift.String) -&gt; (@owned Swift.Optional&lt;Swift.String&gt;) to @callee_owned (@in Swift.Optional&lt;Swift.String&gt;, @in Swift.String) -&gt; (@out Swift.Optional&lt;Swift.String&gt;)"
+                  moduleName = "HW1"
+                  urlString = "file:///Users/rsamuels/school/new/HW1/HW1/ViewController.swift"
+                  timestampString = "445909721.9214"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "140"
+                  endingLineNumber = "140"
+                  offsetFromSymbolStart = "18">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
