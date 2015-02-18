@@ -10,6 +10,8 @@ import UIKit
 
 //Array shuffling extension courtesy of:
 // https://gist.github.com/natecook1000/0ac03efe07f647b46dae
+// (Fisher-Yates shuffling algorithm)
+// Start code from Nate Cook
 extension Array {
     mutating func shuffle() {
         for i in 0..<(count - 1) {
@@ -18,22 +20,31 @@ extension Array {
         }
     }
 }
-//End code from Nate Cook
+// End code from Nate Cook
 
+//Blackjack Game
 class Blackjack {
+    //Various states
     enum State {
+        //Default state, before a game has been started
         case Pre
+        //When we're waiting for the insurance wager to be set
         case Insurance
+        //When the player can input commands
         case Player
+        //When the dealer can act
         case Dealer
+        //Clean up
         case Post
-        case Surrender
     }
     
+    //Results from Games
+    //Mostly self explanatory
     enum Result {
         case Win
         case Lose
         case Tie
+        //When both lose; from Mutually Assured Destruction
         case Mad
     }
     
@@ -51,6 +62,7 @@ class Blackjack {
     var state = State.Pre
     var endgame: [Result?] = [nil, nil, nil, nil]
     
+    //Start a round
     func start(bet: Int) -> State {
         state = statePre(bet)
         
@@ -70,6 +82,8 @@ class Blackjack {
         return !player.allHandsOut()
     }
     
+    //Return true if the player can surrender
+    //They can only surrender as their first action
     func canSurrender() -> Bool {
         if state != State.Player {
             return false
@@ -85,6 +99,8 @@ class Blackjack {
         
         return player.activeHand[0]
     }
+    
+    //True if the player can split their deck
     func canSplit() -> Bool {
         if state != State.Player {
             return false
@@ -109,6 +125,7 @@ class Blackjack {
         return false
     }
     
+    //Perform the hit action on a hand
     func hit(hand: Int) {
         if state == State.Player && player.activeHand[hand] {
             state = statePlayerHit(hand)
@@ -119,6 +136,7 @@ class Blackjack {
         }
     }
     
+    //Perform a stand on a hand
     func stand(hand: Int) {
         if state == State.Player && player.activeHand[hand] {
             state = statePlayerStand(hand)
@@ -130,6 +148,7 @@ class Blackjack {
         
     }
     
+    //Perform a double on a hand
     func double(hand: Int) {
         if state == State.Player && player.activeHand[hand] {
             state = statePlayerDouble(hand)
@@ -140,6 +159,7 @@ class Blackjack {
         }
     }
     
+    //Surrender the game
     func surrender() {
         if state == State.Player && canSurrender() {
             cash += bet/2
@@ -148,17 +168,20 @@ class Blackjack {
         }
     }
     
+    //Set the insurance bet
     func insurance(insurance: Int) {
         state = stateInsurance(insurance)
     }
     
+    //Call cleanup
     func post() {
         state = State.Pre
         statePost()
     }
     
-    //Setup the Decks.
+    //Game setup
     private func statePre(bet: Int) -> State {
+        //Update cash and bets
         cash -= bet
         self.bet = bet
         
@@ -183,6 +206,7 @@ class Blackjack {
         self.insurance = insurance
         
         //Check if someone has blackjack; if so, then we're all done
+        //Note that neither player can have more than 2 cards at this point, so it must be Blackjack
         if player.score(0) == 21 || dealer.score(0) == 21 {
             return State.Dealer
             
@@ -191,9 +215,11 @@ class Blackjack {
         }
     }
     
+    //Perform the Hit action
     private func statePlayerHit(hand: Int) -> State {
         player.addCard(hand, c: deck.draw())
         
+        //If all the hands are inactive, end the player turn
         if(player.allHandsOut()) {
             return State.Dealer
         }else {
@@ -202,10 +228,12 @@ class Blackjack {
     }
     
     private func statePlayerDouble(hand: Int) -> State{
+        //Double the bet
         doubled = true
         cash -= bet
         bet *= 2
         
+        //Give a card and deactive the hand
         player.addCard(hand, c: deck.draw())
         player.activeHand[hand] = false
         
@@ -226,12 +254,19 @@ class Blackjack {
         }
     }
     
+    //Perform a split on a hand
     private func statePlayerSplit(hand: Int) -> State {
         let newDeck = hand + 1
         
+        //Active the deck
         player.activeHand[newDeck] = true
+        
+        //Transfer a card from the old deck to the new deck
         player.cards[newDeck].append(player.cards[hand][1])
         player.cards[hand].removeAtIndex(1)
+        
+        //And draw another card for each hand
+        player.addCard(hand, c: deck.draw())
         player.addCard(newDeck, c: deck.draw())
         
         if(player.allHandsOut()) {
@@ -241,6 +276,7 @@ class Blackjack {
         }
     }
     
+    //Evaluate the score for the player, and end the game
     private func stateDealer() -> State {
         while dealer.score(0) <= 16 {
             dealer.addCard(0, c: deck.draw())
@@ -300,6 +336,7 @@ class Blackjack {
         }
     }
     
+    //Cleanup
     private func statePost() -> State {
         doubled = false
         bet = 0
@@ -308,6 +345,7 @@ class Blackjack {
         endgame = [nil, nil, nil, nil]
         round += 1
         
+        //Shuffle every five rounds, otherwise just throw the cards onto the bottom of the deck
         if(round % 5 == 0) {
             deck.reset()
         }else {
@@ -379,6 +417,7 @@ class Hands {
         return cards[hand][0]
     }
     
+    //Clean up the hand and return the card set
     func reset() -> [Character] {
         let temp = cards.reduce([]) {
             (combine: [Character], next: [Character]) -> [Character] in
@@ -431,6 +470,8 @@ class Hands {
         return score + candidate
     }
     
+    //Return an array of 4 bools
+    //True if the hand can split, false otherwise
     func handsCanSplit() -> [Bool] {
         return cards.map() {
             (hand: [Character]) -> Bool in
@@ -448,6 +489,7 @@ class Hands {
         
     }
     
+    //true if the hand satisfies the rule for blackjack
     func hasBlackjack() -> Bool {
         if activeHand[1] || activeHand[2] || activeHand[3] {
             return false
@@ -465,7 +507,7 @@ class Hands {
     }
 }
 
-
+//Deck for drawing
 class Deck {
     private var deck: [Character] = []
     
@@ -495,6 +537,7 @@ class Deck {
         deck.shuffle()
     }
     
+    //Add to back of array
     func pushback(c: [Character]) {
         deck += c
     }
