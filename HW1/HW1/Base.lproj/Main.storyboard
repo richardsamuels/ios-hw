@@ -306,7 +306,6 @@
                         <outlet property="uiSplit" destination="odm-WR-kGn" id="tAQ-gp-1zH"/>
                         <outlet property="uiStand" destination="n8F-EF-0YJ" id="BMb-te-ukv"/>
                         <outlet property="uiSurrender" destination="Soa-pN-q6a" id="ZDG-AB-R7J"/>
-                        <outlet property="uiUpdate" destination="n8t-nh-NxW" id="JmO-eF-vgS"/>
                         <outlet property="uiUpdateButton" destination="n8t-nh-NxW" id="oWG-bA-NCG"/>
                     </connections>
                 </viewController>
