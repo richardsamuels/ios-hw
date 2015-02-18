@@ -21,6 +21,8 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         uiUpdate()
     }
     
+    //Prompt the user to select a hand to perform the action on
+    //When there is only one option, it'll still prompt the user,
     private func uiSelectHandAnd(action: String, hands: [Bool], callback: (Int) -> Void)  {
         let select = UIAlertController(title: "Select a hand", message: "You can \(action) on the following hands", preferredStyle: UIAlertControllerStyle.Alert)
         
@@ -36,6 +38,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         self.presentViewController(select, animated: true, completion: nil)
     }
     
+    //Set up UI based on the state of the Blackjack game
     func uiUpdate() {
         //Debug button
         uiUpdateButton.hidden = true
@@ -118,9 +121,9 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         uiSplit.hidden = !bjGame.canSplit()
         uiSurrender.hidden = !bjGame.canSurrender()
         
-//        uiCheckLose()
     }
     
+    //Check if the game is over, if so prompt the player with the game information
     func uiCheckLose() {
         self.uiUpdate()
         
@@ -140,6 +143,8 @@ class ViewController: UIViewController, UIAlertViewDelegate {
                 }
             }
             
+            //Display the message
+            //Has a trailing newline on it
             let endGame = UIAlertController(title: "Game over", message: messages.reduce("", {$0! + $1 + "\n"}), preferredStyle: UIAlertControllerStyle.Alert)
             endGame.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default){
                 (UIAlertAction a) in
@@ -155,6 +160,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         
         var textField: UITextField?
         
+        //Add a text field
         insurance.addTextFieldWithConfigurationHandler(){
         (UITextField money) in
             money.keyboardType = UIKeyboardType.NumberPad
@@ -170,9 +176,11 @@ class ViewController: UIViewController, UIAlertViewDelegate {
                     self.bjGame.insurance(bet)
                     self.uiUpdate()
                 }else {
+                    //if failed, reprompt the user
                     self.presentViewController(insurance, animated: true, completion: nil)
                 }
             }else {
+                //if failed, reprompt the user
                 self.presentViewController(insurance, animated: true, completion: nil)
             }
             
@@ -228,7 +236,6 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-
     @IBAction func actionSurrender() {
         //Setup the surrender prompt
         let alert = UIAlertController(title: "Are you sure you wish to surrender?", message: "You'll get $\(bjGame.bet/2) back, and the round will end. This cannot be undone", preferredStyle: UIAlertControllerStyle.Alert)
@@ -285,6 +292,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
         self.uiUpdate()
     }
     
+    //Outlets
     @IBOutlet var uiUpdateButton: UIButton!
     @IBOutlet var uiScoreDealer: UILabel!
     @IBOutlet var uiHandDealer: UILabel!
