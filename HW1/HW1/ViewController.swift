@@ -41,7 +41,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     //Set up UI based on the state of the Blackjack game
     func uiUpdate() {
         //Debug button
-//        uiUpdateButton.hidden = true
+        uiUpdateButton.hidden = true
         
         //State before a round has been started. Just show the Start button
         if bjGame.state == Blackjack.State.Pre || bjGame.state == Blackjack.State.Dealer {

@@ -100,7 +100,7 @@ class Blackjack {
         return player.activeHand[0]
     }
     
-    //True if the player can split their deck
+    //True if the player can split one of their hands
     func canSplit() -> Bool {
         if state != State.Player
             || cash < bet {
@@ -118,8 +118,12 @@ class Blackjack {
                     && (hand[1] == "J" || hand[1] == "K" || hand[1] == "Q") ){
                     
                     //If the hand is inactive, we can split!
-                    if(player.activeHand[index] && index + 1 < player.cards.count && !player.activeHand[index+1]) {
-                       return true
+                    if(player.activeHand[index] ) {
+                        for (index, element) in enumerate(player.cards) {
+                            if element.count == 0 {
+                                return true
+                            }
+                        }
                     }
                 }
             }
@@ -270,7 +274,12 @@ class Blackjack {
     
     //Perform a split on a hand
     private func statePlayerSplit(hand: Int) -> State {
-        let newDeck = hand + 1
+        //find next empty deck
+        var newDeck = hand + 1
+        
+        while player.activatedHand(newDeck) {
+            newDeck += 1
+        }
         cash -= bet
         
         //Activate the deck
@@ -336,7 +345,9 @@ class Blackjack {
                 return Result.Mad
             }else if playerScore > 21 {
                 //Dealer wins
-                
+                if dealer.hasBlackjack() {
+                    cash += 2 * insurance
+                }
                 return Result.Lose
             }else {
                 //Player wins
@@ -557,7 +568,7 @@ class Deck {
         
         //Now shuffle the array
         //No built-in for this, so we're using an extension to Array from Nate Cook
-//        deck.shuffle()
+        deck.shuffle()
     }
     
     //Add to back of array
