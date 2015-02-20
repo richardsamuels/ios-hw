@@ -102,7 +102,8 @@ class Blackjack {
     
     //True if the player can split their deck
     func canSplit() -> Bool {
-        if state != State.Player {
+        if state != State.Player
+            || cash < bet {
             return false
         }
         
@@ -117,7 +118,9 @@ class Blackjack {
                     && (hand[1] == "J" || hand[1] == "K" || hand[1] == "Q") ){
                     
                     //If the hand is inactive, we can split!
-                    return !player.activeHand[index]
+                    if(player.activeHand[index] && index + 1 < player.cards.count && !player.activeHand[index+1]) {
+                       return true
+                    }
                 }
             }
         }
@@ -165,6 +168,17 @@ class Blackjack {
             cash += bet/2
             
             state = statePost()
+        }
+    }
+    
+    //Perform a double on a hand
+    func split(hand: Int) {
+        if state == State.Player && player.activeHand[hand] {
+            state = statePlayerSplit(hand)
+            
+            if state == State.Dealer {
+                stateDealer()
+            }
         }
     }
     
@@ -257,8 +271,9 @@ class Blackjack {
     //Perform a split on a hand
     private func statePlayerSplit(hand: Int) -> State {
         let newDeck = hand + 1
+        cash -= bet
         
-        //Active the deck
+        //Activate the deck
         player.activeHand[newDeck] = true
         
         //Transfer a card from the old deck to the new deck
@@ -293,7 +308,7 @@ class Blackjack {
     
     //Do the dealer's work, and evaluate if the hand won
     private func stateDealerCheckHand(h: Int) -> Result? {
-        if player.cards[h].count == 0 {
+        if !player.activatedHand(h) {
             return nil
         }
         let playerScore = player.score(h)
@@ -305,12 +320,14 @@ class Blackjack {
                 cash += bet
                 return Result.Tie
             }else if player.hasBlackjack() {
-                //Player winsT
+                //Player wins
                 cash += (bet / 2) * 3
                 return Result.Win
             }else {
                 //Dealer wins, but maybe insurance?
-                cash += 2 * insurance
+                if dealer.hasBlackjack() {
+                    cash += 2 * insurance
+                }
                 return Result.Lose
             }
         }else if playerScore > 21 || dealerScore > 21 {
@@ -319,9 +336,11 @@ class Blackjack {
                 return Result.Mad
             }else if playerScore > 21 {
                 //Dealer wins
+                
                 return Result.Lose
             }else {
                 //Player wins
+                cash += bet
                 return Result.Win
             }
         }else  {
@@ -415,6 +434,10 @@ class Hands {
     //Peek at the top of a hand
     func peek(hand: Int) -> Character {
         return cards[hand][0]
+    }
+    
+    func activatedHand(hand: Int) -> Bool {
+        return cards[hand].count > 0
     }
     
     //Clean up the hand and return the card set
@@ -534,7 +557,7 @@ class Deck {
         
         //Now shuffle the array
         //No built-in for this, so we're using an extension to Array from Nate Cook
-        deck.shuffle()
+//        deck.shuffle()
     }
     
     //Add to back of array

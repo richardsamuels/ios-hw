@@ -41,7 +41,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     //Set up UI based on the state of the Blackjack game
     func uiUpdate() {
         //Debug button
-        uiUpdateButton.hidden = true
+//        uiUpdateButton.hidden = true
         
         //State before a round has been started. Just show the Start button
         if bjGame.state == Blackjack.State.Pre || bjGame.state == Blackjack.State.Dealer {
@@ -81,15 +81,15 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiHandPlayer1.text = bjGame.player.string(0, dealer: false)
             uiScorePlayer1.text = String(bjGame.player.score(0))
             
-            if self.bjGame.player.activeHand[1] {
+            if self.bjGame.player.activatedHand(1) {
                 uiHandPlayer2.text = bjGame.player.string(1, dealer: false)
                 uiScorePlayer2.text = String(bjGame.player.score(1))
                 
-                if self.bjGame.player.activeHand[2] {
+                if self.bjGame.player.activatedHand(2) {
                     uiHandPlayer3.text = bjGame.player.string(2, dealer: false)
                     uiScorePlayer3.text = String(bjGame.player.score(2))
                     
-                    if self.bjGame.player.activeHand[3] {
+                    if self.bjGame.player.activatedHand(3) {
                         uiHandPlayer4.text = bjGame.player.string(3, dealer: false)
                         uiScorePlayer4.text = String(bjGame.player.score(3))
                     }
@@ -116,6 +116,22 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiScorePlayer1.text = String(bjGame.player.score(0))
         }
         
+        if self.bjGame.player.activatedHand(1) {
+            uiHandPlayer2.text = bjGame.player.string(1, dealer: false)
+            uiScorePlayer2.text = String(bjGame.player.score(1))
+            
+            if self.bjGame.player.activatedHand(2) {
+                uiHandPlayer3.text = bjGame.player.string(2, dealer: false)
+                uiScorePlayer3.text = String(bjGame.player.score(2))
+                
+                if self.bjGame.player.activatedHand(3) {
+                    uiHandPlayer4.text = bjGame.player.string(3, dealer: false)
+                    uiScorePlayer4.text = String(bjGame.player.score(3))
+                }
+                
+            }
+            
+        }
         uiCash.text = String(bjGame.cash)
         uiDouble.hidden = !bjGame.canDouble()
         uiSplit.hidden = !bjGame.canSplit()
@@ -282,7 +298,7 @@ class ViewController: UIViewController, UIAlertViewDelegate {
     @IBAction func actionSplit() {
         uiSelectHandAnd("split", hands: self.bjGame.player.handsCanSplit()) {
             (h: Int) -> Void in
-            self.bjGame.double(h)
+            self.bjGame.split(h)
             self.uiUpdate()
             self.uiCheckLose()
         }
