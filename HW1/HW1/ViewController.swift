@@ -81,23 +81,6 @@ class ViewController: UIViewController, UIAlertViewDelegate {
             uiHandPlayer1.text = bjGame.player.string(0, dealer: false)
             uiScorePlayer1.text = String(bjGame.player.score(0))
             
-            if self.bjGame.player.activatedHand(1) {
-                uiHandPlayer2.text = bjGame.player.string(1, dealer: false)
-                uiScorePlayer2.text = String(bjGame.player.score(1))
-                
-                if self.bjGame.player.activatedHand(2) {
-                    uiHandPlayer3.text = bjGame.player.string(2, dealer: false)
-                    uiScorePlayer3.text = String(bjGame.player.score(2))
-                    
-                    if self.bjGame.player.activatedHand(3) {
-                        uiHandPlayer4.text = bjGame.player.string(3, dealer: false)
-                        uiScorePlayer4.text = String(bjGame.player.score(3))
-                    }
-                    
-                }
-                
-            }
-            
         }else {
             uiHit.hidden = false
             uiStand.hidden = false

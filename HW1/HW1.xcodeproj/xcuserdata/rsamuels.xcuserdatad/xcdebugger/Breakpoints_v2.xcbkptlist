@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HW1/ViewController.swift"
-            timestampString = "446090441.926572"
+            timestampString = "446098261.505272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "uiCheckLose()"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HW1/ViewController.swift"
-            timestampString = "446090441.926572"
+            timestampString = "446098261.505272"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "actionSplit()"
             landmarkType = "5">
          </BreakpointContent>
