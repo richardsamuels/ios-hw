@@ -20,7 +20,7 @@ class Blackjack {
         case Post
     }
     
-    var players: [BlackjackPlayer]
+    var players: [BlackjackPlayer] = []
     var playerDealer = BlackjackPlayer()
     var shoe: Shoe
     var state: State = State.Setup
@@ -64,6 +64,7 @@ class Blackjack {
         for (index, p) in enumerate(players) {
             //set the bet
             p.bet = bets[index]
+            p.cash -= p.bet
             
             //And deal
             p.hand.addCard(shoe.draw())
@@ -88,29 +89,12 @@ class Blackjack {
         
         for (index, p) in enumerate(players) {
             p.insurance = bets[index]
+            p.cash -= p.insurance
         }
         
         if playerDealer.hand.hasBlackjack() {
             return State.Scoring
         }
-        
-        return State.Player
-    }
-    
-    private func player(bets: [Int]) -> State {
-        if state != State.Setup {
-            return state
-        }
-        
-        for (index, p) in enumerate(players) {
-            //set the bet
-            p.bet = bets[index]
-            
-            //And deal
-            p.hand.addCard(shoe.draw())
-            p.hand.addCard(shoe.draw())
-        }
-       
         
         return State.Player
     }
@@ -232,7 +216,9 @@ class Blackjack {
     }
     
     init(playerCount: Int, numberOfDecks: Int) {
-        players = Array(count: playerCount, repeatedValue: BlackjackPlayer())
+        for _ in 0..<playerCount {
+            players.append(BlackjackPlayer())
+        }
         shoe = Shoe(numberOfDecks: numberOfDecks)
     }
 }
