@@ -1,5 +1,5 @@
 //
-//  Decks.swift
+//  Deck.swift
 //  HW2
 //
 //  Created by Richard Samuels on 24/02/15.
@@ -24,7 +24,6 @@ extension Array {
 
 class Deck {
     private var deck: [Character] = []
-    let numberOfDecks: Int;
     
     //Draw from the top of the deck, returning the character
     func draw() -> Character {
@@ -40,13 +39,11 @@ class Deck {
         deck.removeAll(keepCapacity: true)
         
         //Now do the same with the face cards
-        for _ in 1...numberOfDecks {
-            let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
-            
-            for c in set {
-                for _ in 1...4 {
-                    deck.append(c)
-                }
+        let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
+        
+        for c in set {
+            for _ in 1...4 {
+                deck.append(c)
             }
         }
         
@@ -60,13 +57,8 @@ class Deck {
         deck += c
     }
     
-    init(numberOfDecks: Int) {
-        if(numberOfDecks < 1) {
-            self.numberOfDecks = 3
-        }else {
-            self.numberOfDecks = numberOfDecks
-        }
-        
+    init() {
         reset();
     }
+    
 }

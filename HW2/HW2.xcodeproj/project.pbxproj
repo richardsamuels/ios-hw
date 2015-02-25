@@ -13,7 +13,8 @@
 		4EF9664A1A9D42F10040BD86 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EF966491A9D42F10040BD86 /* Images.xcassets */; };
 		4EF9664D1A9D42F10040BD86 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EF9664B1A9D42F10040BD86 /* LaunchScreen.xib */; };
 		4EF966591A9D42F10040BD86 /* HW2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966581A9D42F10040BD86 /* HW2Tests.swift */; };
-		4EF966631A9D43420040BD86 /* Decks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966621A9D43420040BD86 /* Decks.swift */; };
+		4EF966631A9D43420040BD86 /* Shoe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966621A9D43420040BD86 /* Shoe.swift */; };
+		4EF966651A9D473C0040BD86 /* Deck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966641A9D473C0040BD86 /* Deck.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +38,8 @@
 		4EF966521A9D42F10040BD86 /* HW2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HW2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EF966571A9D42F10040BD86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EF966581A9D42F10040BD86 /* HW2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW2Tests.swift; sourceTree = "<group>"; };
-		4EF966621A9D43420040BD86 /* Decks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decks.swift; sourceTree = "<group>"; };
+		4EF966621A9D43420040BD86 /* Shoe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shoe.swift; sourceTree = "<group>"; };
+		4EF966641A9D473C0040BD86 /* Deck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deck.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +87,8 @@
 				4EF966491A9D42F10040BD86 /* Images.xcassets */,
 				4EF9664B1A9D42F10040BD86 /* LaunchScreen.xib */,
 				4EF966401A9D42F10040BD86 /* Supporting Files */,
-				4EF966621A9D43420040BD86 /* Decks.swift */,
+				4EF966621A9D43420040BD86 /* Shoe.swift */,
+				4EF966641A9D473C0040BD86 /* Deck.swift */,
 			);
 			path = HW2;
 			sourceTree = "<group>";
@@ -215,9 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EF966651A9D473C0040BD86 /* Deck.swift in Sources */,
 				4EF966451A9D42F10040BD86 /* ViewController.swift in Sources */,
 				4EF966431A9D42F10040BD86 /* AppDelegate.swift in Sources */,
-				4EF966631A9D43420040BD86 /* Decks.swift in Sources */,
+				4EF966631A9D43420040BD86 /* Shoe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
