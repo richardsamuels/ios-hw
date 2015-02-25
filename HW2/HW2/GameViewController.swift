@@ -14,7 +14,6 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        uil.text = "Players: \(game.players.count); Decks: \(game.shoe.numberOfDecks)"
     }
     
     override func didReceiveMemoryWarning() {
@@ -22,7 +21,13 @@ class GameViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBOutlet weak var uil: UILabel!
+    @IBOutlet weak var uiSurrender: UIButton!
+    @IBAction func actionSurrender(sender: UIButton) {
+    }
+    @IBAction func actionStand(sender: UIButton) {
+    }
+    @IBAction func actionHit() {
+    }
 }
 
 
