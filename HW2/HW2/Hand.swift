@@ -10,6 +10,11 @@ import Foundation
 
 class Hand {
     private var cards:[Character] = []
+    var numCards: Int {
+        get {
+            return cards.count
+        }
+    }
     
     //if true, that hand is active (i.e. we can do stuff to it)
     var activeHand = true
@@ -30,8 +35,10 @@ class Hand {
     }
     
     //Return a string representation of the hand
-    func string(dealer: Bool = false) -> String {
-        if dealer {
+    //When hideHole is true, only one card will be shown
+    //This is used during the insurance bet phase
+    func string(hideHole: Bool = false) -> String {
+        if hideHole {
             if let c = cards.last {
                 return [c] + " and \(cards.count - 1) other card"
             }else {
@@ -49,12 +56,8 @@ class Hand {
     }
     
     //Peek at the top of a hand
-    func peek(hand: Int) -> Character {
+    func peek() -> Character {
         return cards[0]
-    }
-    
-    func activatedHand(hand: Int) -> Bool {
-        return cards.count > 0
     }
     
     //Clean up the hand and return the card set

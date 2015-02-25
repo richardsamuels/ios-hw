@@ -24,6 +24,11 @@ extension Array {
 
 class Deck {
     private var deck: [Character] = []
+    var numCards: Int {
+        get {
+            return deck.count
+        }
+    }
     
     //Draw from the top of the deck, returning the character
     func draw() -> Character {
