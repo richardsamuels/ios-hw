@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E53AE901A9E287B005FB290 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E53AE8F1A9E287B005FB290 /* GameViewController.swift */; };
 		4EF966431A9D42F10040BD86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966421A9D42F10040BD86 /* AppDelegate.swift */; };
-		4EF966451A9D42F10040BD86 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966441A9D42F10040BD86 /* ViewController.swift */; };
+		4EF966451A9D42F10040BD86 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF966441A9D42F10040BD86 /* SetupViewController.swift */; };
 		4EF966481A9D42F10040BD86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4EF966461A9D42F10040BD86 /* Main.storyboard */; };
 		4EF9664A1A9D42F10040BD86 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4EF966491A9D42F10040BD86 /* Images.xcassets */; };
 		4EF9664D1A9D42F10040BD86 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EF9664B1A9D42F10040BD86 /* LaunchScreen.xib */; };
@@ -31,10 +32,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E53AE8F1A9E287B005FB290 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		4EF9663D1A9D42F10040BD86 /* HW2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HW2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EF966411A9D42F10040BD86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4EF966421A9D42F10040BD86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4EF966441A9D42F10040BD86 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4EF966441A9D42F10040BD86 /* SetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		4EF966471A9D42F10040BD86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4EF966491A9D42F10040BD86 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4EF9664C1A9D42F10040BD86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -88,7 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				4EF966421A9D42F10040BD86 /* AppDelegate.swift */,
-				4EF966441A9D42F10040BD86 /* ViewController.swift */,
+				4EF966441A9D42F10040BD86 /* SetupViewController.swift */,
+				4E53AE8F1A9E287B005FB290 /* GameViewController.swift */,
 				4EF966461A9D42F10040BD86 /* Main.storyboard */,
 				4EF966491A9D42F10040BD86 /* Images.xcassets */,
 				4EF9664B1A9D42F10040BD86 /* LaunchScreen.xib */,
@@ -230,7 +233,8 @@
 				4EF966651A9D473C0040BD86 /* Deck.swift in Sources */,
 				4EF966671A9D52D50040BD86 /* Hand.swift in Sources */,
 				4EF966691A9D54FD0040BD86 /* Blackjack.swift in Sources */,
-				4EF966451A9D42F10040BD86 /* ViewController.swift in Sources */,
+				4EF966451A9D42F10040BD86 /* SetupViewController.swift in Sources */,
+				4E53AE901A9E287B005FB290 /* GameViewController.swift in Sources */,
 				4EF9666B1A9D556F0040BD86 /* BlackjackPlayer.swift in Sources */,
 				4EF966431A9D42F10040BD86 /* AppDelegate.swift in Sources */,
 				4EF966631A9D43420040BD86 /* Shoe.swift in Sources */,

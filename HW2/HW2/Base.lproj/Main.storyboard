@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Setup View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="SetupViewController" customModule="HW2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +16,143 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Decks in Shoe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Moq-pp-VQb">
+                                <rect key="frame" x="202" y="149" width="196.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="in7-gy-gZ2">
+                                <rect key="frame" x="279" y="178" width="42" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="3eT-hJ-v4I">
+                                <rect key="frame" x="253" y="206" width="94" height="29"/>
+                                <connections>
+                                    <action selector="uiDeckStepperChanged" destination="vXZ-lx-hvc" eventType="valueChanged" id="pZo-Kk-iyV"/>
+                                </connections>
+                            </stepper>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="lCM-nZ-j4Q">
+                                <rect key="frame" x="253" y="414" width="94" height="29"/>
+                                <connections>
+                                    <action selector="uiPlayerStepperChanged" destination="vXZ-lx-hvc" eventType="valueChanged" id="8x4-V4-RVj"/>
+                                </connections>
+                            </stepper>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Players in Game" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pu6-Qv-lEd">
+                                <rect key="frame" x="194" y="356" width="212" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9x-UN-8YZ">
+                                <rect key="frame" x="279" y="385" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qxm-db-CSv">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Blackjack Setup" id="UqJ-r7-XPf">
+                                        <barButtonItem key="rightBarButtonItem" id="qSG-fP-qvq">
+                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="hzj-FI-IQP">
+                                                <rect key="frame" x="261" y="550" width="79" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Start Game">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="5jT-qH-BZN" kind="show" identifier="setupToGame" id="5Me-vD-jj1"/>
+                                                </connections>
+                                            </button>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="lCM-nZ-j4Q" secondAttribute="centerY" constant="-128.5" id="3YN-yP-I2t"/>
+                            <constraint firstItem="qxm-db-CSv" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="3rH-Ou-zAf"/>
+                            <constraint firstAttribute="centerY" secondItem="J9x-UN-8YZ" secondAttribute="centerY" constant="-95.5" id="6nl-oE-hSg"/>
+                            <constraint firstItem="3eT-hJ-v4I" firstAttribute="top" secondItem="in7-gy-gZ2" secondAttribute="bottom" constant="8" id="7xv-A3-tPV"/>
+                            <constraint firstAttribute="centerY" secondItem="pu6-Qv-lEd" secondAttribute="centerY" constant="-66.5" id="Cwf-ae-UfC"/>
+                            <constraint firstAttribute="centerX" secondItem="Moq-pp-VQb" secondAttribute="centerX" constant="-0.5" id="FJj-ot-GS1"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qxm-db-CSv" secondAttribute="trailing" constant="-16" id="KZk-tf-AxN"/>
+                            <constraint firstAttribute="centerX" secondItem="pu6-Qv-lEd" secondAttribute="centerX" id="Nk6-lh-Qei"/>
+                            <constraint firstAttribute="centerX" secondItem="3eT-hJ-v4I" secondAttribute="centerX" id="Q5O-rF-4zf"/>
+                            <constraint firstAttribute="centerY" secondItem="Moq-pp-VQb" secondAttribute="centerY" constant="140.5" id="V3t-iD-YAK"/>
+                            <constraint firstItem="lCM-nZ-j4Q" firstAttribute="top" secondItem="J9x-UN-8YZ" secondAttribute="bottom" constant="8" id="fRn-Og-M7o"/>
+                            <constraint firstAttribute="centerX" secondItem="lCM-nZ-j4Q" secondAttribute="centerX" id="hNH-2o-xEX"/>
+                            <constraint firstItem="qxm-db-CSv" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="htE-yO-s2g"/>
+                            <constraint firstAttribute="centerX" secondItem="in7-gy-gZ2" secondAttribute="centerX" id="jv8-3B-qA9"/>
+                            <constraint firstItem="J9x-UN-8YZ" firstAttribute="top" secondItem="pu6-Qv-lEd" secondAttribute="bottom" constant="8" id="mCk-SL-VV3"/>
+                            <constraint firstAttribute="centerX" secondItem="J9x-UN-8YZ" secondAttribute="centerX" id="sWb-42-cgx"/>
+                            <constraint firstItem="in7-gy-gZ2" firstAttribute="top" secondItem="Moq-pp-VQb" secondAttribute="bottom" constant="8" id="uGl-tH-bhR"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="uiDeckNum" destination="in7-gy-gZ2" id="ysm-GP-Jfo"/>
+                        <outlet property="uiDeckStepper" destination="3eT-hJ-v4I" id="70h-0a-6EI"/>
+                        <outlet property="uiPlayerNum" destination="J9x-UN-8YZ" id="DCy-TB-Jit"/>
+                        <outlet property="uiPlayerStepper" destination="lCM-nZ-j4Q" id="17X-DR-zIf"/>
+                        <outlet property="uiStartGame" destination="hzj-FI-IQP" id="PHS-Vr-Y7H"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Game View Controller-->
+        <scene sceneID="bPa-Ae-2SA">
+            <objects>
+                <viewController id="5jT-qH-BZN" customClass="GameViewController" customModule="HW2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dnh-E9-D5X"/>
+                        <viewControllerLayoutGuide type="bottom" id="gQ9-Im-iti"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BVL-IA-71h">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vxz-Wn-Jhg">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Blackjack" id="T3Y-QL-86l">
+                                        <barButtonItem key="leftBarButtonItem" title="End Session" id="jL2-q7-r7g">
+                                            <connections>
+                                                <segue destination="8H4-qe-brr" kind="unwind" unwindAction="gameUnwind:" id="19s-UR-NH1"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlF-sA-bfC">
+                                <rect key="frame" x="279" y="283" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="mlF-sA-bfC" secondAttribute="centerX" id="CYs-bO-T6X"/>
+                            <constraint firstAttribute="centerY" secondItem="mlF-sA-bfC" secondAttribute="centerY" constant="6.5" id="KD0-wl-RLH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Vxz-Wn-Jhg" secondAttribute="trailing" constant="-16" id="VTh-hH-vng"/>
+                            <constraint firstItem="Vxz-Wn-Jhg" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" constant="-16" id="wns-NH-tsM"/>
+                            <constraint firstItem="Vxz-Wn-Jhg" firstAttribute="top" secondItem="dnh-E9-D5X" secondAttribute="bottom" id="zS6-jF-0n2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="uil" destination="mlF-sA-bfC" id="wfk-qe-w2Z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dQw-09-SZ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="8H4-qe-brr" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1070" y="341"/>
         </scene>
     </scenes>
 </document>

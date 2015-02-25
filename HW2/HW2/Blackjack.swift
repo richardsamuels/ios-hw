@@ -22,7 +22,7 @@ class Blackjack {
     
     var players: [BlackjackPlayer]
     var playerDealer = BlackjackPlayer()
-    var shoe = Shoe()
+    var shoe: Shoe
     var state: State = State.Setup
     var currentPlayer = 0
     var round = 0
@@ -231,7 +231,8 @@ class Blackjack {
         return State.Post
     }
     
-    init(playerCount: Int) {
+    init(playerCount: Int, numberOfDecks: Int) {
         players = Array(count: playerCount, repeatedValue: BlackjackPlayer())
+        shoe = Shoe(numberOfDecks: numberOfDecks)
     }
 }
