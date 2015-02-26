@@ -12,90 +12,9 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     var game: Blackjack!
     var bets: [Int] = []
     
-    //Table view Functions
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return game.players.count + 1
-    }
-    
-    //Builds each cell of the table view
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
-        
-        if indexPath.row == 0 {
-            if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
-                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
-                    score: nil)
-            }else {
-                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(),
-                    score: game.playerDealer.hand.score())
-            }
-        }else {
-            let player: BlackjackPlayer = game.players [(indexPath.row - 1)]
-            
-            cell.set(player.cash, player: indexPath.row,
-                hand: player.hand.string(),
-                wager: player.bet,
-                insurance: player.insurance,
-                score: player.hand.score())
-        }
-        
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-//        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
-    }
-    
-    func start() {
-        self.game.gameAdvanceState()
-        self.bets.removeAll(keepCapacity: true)
-        
-        betChain(player: 0, action: {
-            //Advance the game state
-            let postBetState = self.game.gameAdvanceState(bets: self.bets)
-            
-            //update the table
-            self.uiTable.reloadData()
-            
-            //Check if we need to ask users for insurance
-            if postBetState == Blackjack.State.Insurance {
-                self.bets.removeAll(keepCapacity: true)
-                
-                //if so, get the bets,
-                self.insuranceChain(player: 0, action: {
-                    //Then advance the game state
-                    let x = self.game.gameAdvanceState(bets: self.bets)
-                    if x == Blackjack.State.Scoring {
-                        self.scoring()
-                    }
-                })
-            }else if postBetState == Blackjack.State.Scoring {
-                self.scoring()
-            }
-            
-            self.uiTable.reloadData()
-            
-        })
-    }
-    
-    //Starts the game once the view has loaded
-    override func viewDidAppear(animated: Bool) {
-        start()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBOutlet weak var uiSurrender: UIButton!
     @IBOutlet weak var uiTable: UITableView!
+    @IBOutlet weak var uiPlayer: UILabel!
     
     //Surrender Button
     @IBAction func actionSurrender(sender: UIButton) {
@@ -145,6 +64,93 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         }
     }
+    //Table view Functions
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return game.players.count + 1
+    }
+    
+    //Builds each cell of the table view
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
+        
+        if indexPath.row == 0 {
+            if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
+                    score: nil)
+            }else {
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(),
+                    score: game.playerDealer.hand.score())
+            }
+        }else {
+            let player: BlackjackPlayer = game.players [(indexPath.row - 1)]
+            
+            cell.set(player.cash, player: indexPath.row,
+                hand: player.hand.string(),
+                wager: player.bet,
+                insurance: player.insurance,
+                score: player.hand.score())
+        }
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+//        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
+        uiPlayer.text = ""
+    }
+    
+    func start() {
+        self.game.gameAdvanceState()
+        self.bets.removeAll(keepCapacity: true)
+        
+        betChain(player: 0, action: {
+            //Advance the game state
+            let postBetState = self.game.gameAdvanceState(bets: self.bets)
+            
+            //update the table
+            self.uiTable.reloadData()
+            
+            //Check if we need to ask users for insurance
+            if postBetState == Blackjack.State.Insurance {
+                self.bets.removeAll(keepCapacity: true)
+                
+                //if so, get the bets,
+                self.insuranceChain(player: 0, action: {
+                    //Then advance the game state
+                    let x = self.game.gameAdvanceState(bets: self.bets)
+                    if x == Blackjack.State.Scoring {
+                        self.scoring()
+                    }else {
+                        self.playerPrompt(0, action: nil)
+                    }
+                })
+            }else if postBetState == Blackjack.State.Scoring {
+                self.scoring()
+            }else {
+                self.playerPrompt(0, action: nil)
+            }
+            
+            self.uiTable.reloadData()
+            
+        })
+    }
+    
+    //Starts the game once the view has loaded
+    override func viewDidAppear(animated: Bool) {
+        start()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     
     func scoring() {
         game.gameAdvanceState()
@@ -186,6 +192,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         }else {
             playerNum = player!
         }
+        
+        uiPlayer.text = " Player \(playerNum + 1)"
         
         //Let the user know whose turn it is
         let prompt = UIAlertController(title: "Player \(playerNum + 1)", message: "It is now your turn", preferredStyle: UIAlertControllerStyle.Alert)

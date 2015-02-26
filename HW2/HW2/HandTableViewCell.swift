@@ -25,7 +25,7 @@ public class HandTableViewCell: UITableViewCell {
         if player == 0 {
             uiPlayer.text = "Dealer"
         }else {
-            uiPlayer.text = "Player \(player): \(cash)"
+            uiPlayer.text = "Player \(player): $\(cash)"
         }
         
         if wager != nil && wager != 0 {
