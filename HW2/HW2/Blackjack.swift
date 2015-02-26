@@ -168,7 +168,7 @@ class Blackjack {
                     return BlackjackPlayer.State.Push
                     
                     // ALl possible lose conditions
-            }else if bjDealer || playerScore > 21 || playerScore < dealerScore {
+            }else if dealerScore <= 21 && (bjDealer || playerScore > 21 || playerScore < dealerScore) {
                 
                 return BlackjackPlayer.State.Lose
                 
@@ -193,12 +193,14 @@ class Blackjack {
             p.insurance = 0
         }
         
+        shoe.addToBottom(playerDealer.hand.reset())
+        
         //Shuffle after 5 rounds
         if round % 5 == 0 {
             shoe.reset()
         }
         
-        state =  State.Post
+        state =  State.Setup
         return state
     }
     

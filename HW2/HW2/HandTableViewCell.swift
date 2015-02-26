@@ -15,8 +15,12 @@ public class HandTableViewCell: UITableViewCell {
     @IBOutlet weak var uiScore: UILabel!
     @IBOutlet weak var uiWager: UILabel!
     
-    public func set(player: Int, hand: String, wager: Int? = nil, insurance: Int? = nil, score: Int? = nil) {
-        uiHand.text = hand
+    public func set(player: Int, hand: String?, wager: Int? = nil, insurance: Int? = nil, score: Int? = nil) {
+        if hand != nil {
+            uiHand.text = hand
+        }else {
+            uiHand.text = ""
+        }
         
         if player == 0 {
             uiPlayer.text = "Dealer"

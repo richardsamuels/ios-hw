@@ -36,13 +36,13 @@ class Hand {
     //Return a string representation of the hand
     //When hideHole is true, only one card will be shown
     //This is used during the insurance bet phase
-    func string(hideHole: Bool = false) -> String {
+    func string(hideHole: Bool = false) -> String? {
         if hideHole {
             if let c = cards.last {
-                return [c] + " and \(cards.count - 1) other card"
+                return "\(c) and \(cards.count - 1) other card"
             }else {
                 //This should never happen
-                return "Empty hand???"
+                return nil
             }
             
         }else {

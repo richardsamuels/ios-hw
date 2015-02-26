@@ -22,12 +22,12 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
         
         if indexPath.row == 0 {
-            if game.state == Blackjack.State.Player {
-                cell.set(indexPath.row, hand: game.playerDealer.hand.string(),
-                    score: game.playerDealer.hand.score())
-            }else {
+            if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
                 cell.set(indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
                     score: nil)
+            }else {
+                cell.set(indexPath.row, hand: game.playerDealer.hand.string(),
+                    score: game.playerDealer.hand.score())
             }
         }else {
             let player: BlackjackPlayer = game.players [(indexPath.row - 1)]
@@ -52,9 +52,9 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
     }
     
-    //Starts the game once the view has loaded
-    override func viewDidAppear(animated: Bool) {
+    func start() {
         self.game.gameAdvanceState()
+        self.bets.removeAll(keepCapacity: true)
         
         betChain(player: 0, action: {
             //Advance the game state
@@ -82,6 +82,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.uiTable.reloadData()
             
         })
+    }
+    
+    //Starts the game once the view has loaded
+    override func viewDidAppear(animated: Bool) {
+        start()
     }
     
     override func didReceiveMemoryWarning() {
@@ -143,7 +148,31 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func scoring() {
         game.gameAdvanceState()
+        uiTable.reloadData()
+        var messages:[String] = []
         
+        for (index, x) in enumerate(game.gameResults!) {
+            if x == BlackjackPlayer.State.Win {
+                messages.append("Player \(index + 1): Win")
+                
+            }else if x == BlackjackPlayer.State.Lose {
+                messages.append("Player \(index + 1): Lose ")
+                
+            }else if x == BlackjackPlayer.State.Push {
+                messages.append("Player \(index + 1): No winner")
+            }
+        }
+        messages.append("Beginning Round \(game.round + 2)")
+        
+        //Display the message
+        //Has a trailing newline on it
+        let endGame = UIAlertController(title: "Game over", message: messages.reduce("", {$0! + $1 + "\n"}), preferredStyle: UIAlertControllerStyle.Alert)
+        endGame.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default){
+            (UIAlertAction a) in
+                let x = self.game.gameAdvanceState()
+                self.start()
+            })
+        self.presentViewController(endGame, animated: true, completion: nil)
     }
     
     //Notify the player it's their turn, then execute action
