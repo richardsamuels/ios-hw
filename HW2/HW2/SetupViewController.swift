@@ -15,11 +15,11 @@ class SetupViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         uiDeckStepper.minimumValue = 1
         uiDeckStepper.maximumValue = 10
-        uiDeckStepper.value = 2.0
+        uiDeckStepper.value = 3.0
         uiPlayerStepper.minimumValue = 1
         uiPlayerStepper.maximumValue = 10
         uiPlayerStepper.value = 2.0
-        uiDeckNum.text = "2"
+        uiDeckNum.text = "3"
         uiPlayerNum.text = "2"
     }
 
