@@ -13,18 +13,24 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     var bets: [Int] = []
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 0
         return game.players.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 //        return UITableViewCell()
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
+        
         if indexPath.row == 0 {
-            cell.textLabel?.text = game.playerDealer.hand.string(hideHole: false);
+            cell.set(indexPath.row, hand: game.playerDealer.hand.string(), score: game.playerDealer.hand.score())
         }else {
-            cell.textLabel?.text = game.players[indexPath.row - 1].hand.string(hideHole: false);
+            let player: BlackjackPlayer = game.players [(indexPath.row - 1)]
+            
+            cell.set(indexPath.row,
+                hand: player.hand.string(),
+                score: player.hand.score())
         }
+//        cell.uiLeft?.text = "test"
+        
         return cell
     }
     
@@ -35,7 +41,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.uiTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -43,6 +49,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         betChain(player: 0, action: {
             let postBetState = self.game.gameAdvanceState(bets: self.bets)
+            self.uiTable.reloadData()
             
             if postBetState == Blackjack.State.Insurance {
                 self.bets.removeAll(keepCapacity: true)

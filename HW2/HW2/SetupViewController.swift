@@ -32,7 +32,7 @@ class SetupViewController: UIViewController {
         if segue.identifier == "setupToGame" {
             
             var svc = segue.destinationViewController as GameViewController;
-            svc.game = Blackjack(playerCount: Int(uiDeckStepper.value), numberOfDecks: Int(uiPlayerStepper.value))
+            svc.game = Blackjack(playerCount: Int(uiPlayerStepper.value), numberOfDecks: Int(uiDeckStepper.value))
         }
     }
     

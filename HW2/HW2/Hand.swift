@@ -16,6 +16,12 @@ class Hand {
         }
     }
     
+    var cardScore: Int {
+        get {
+            return score()
+        }
+    }
+    
     //if true, that hand is active (i.e. we can do stuff to it)
     var activeHand = true
     
