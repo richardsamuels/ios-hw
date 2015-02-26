@@ -22,9 +22,6 @@ class Hand {
         }
     }
     
-    //if true, that hand is active (i.e. we can do stuff to it)
-    var activeHand = true
-    
     //Add a given card c to a deck hand
     func addCard(c: Character) {
         switch c {
@@ -33,10 +30,6 @@ class Hand {
             
         default:
             break
-        }
-        
-        if(score() > 21) {
-            activeHand = false
         }
     }
     
@@ -70,7 +63,6 @@ class Hand {
     func reset() -> [Character] {
         let temp = cards;
         cards = []
-        activeHand = true
         return temp
     }
     

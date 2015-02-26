@@ -24,11 +24,11 @@ public class HandTableViewCell: UITableViewCell {
             uiPlayer.text = "Player \(player)"
         }
         
-        if wager != nil {
-            if insurance != nil {
-                uiWager.text = "$\(wager) + $\(insurance)"
+        if wager != nil && wager != 0 {
+            if insurance != nil && insurance != 0 {
+                uiWager.text = "$\(wager!) + $\(insurance!)"
             }else {
-                uiWager.text = "$\(wager)"
+                uiWager.text = "$\(wager!)"
             }
         }else {
             uiWager.text = ""

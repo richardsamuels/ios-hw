@@ -103,8 +103,10 @@ class Blackjack {
         currentPlayer += 1;
         
         if currentPlayer >= players.count {
-            return State.Dealer
+            state = State.Dealer
+            return state
         }else {
+            state = State.Player
             return State.Player
         }
     }
@@ -113,22 +115,24 @@ class Blackjack {
         players[player].hand.addCard(shoe.draw());
         
         if players[player].hand.score() > 21 {
-            return State.NextPlayer
+            state = State.NextPlayer
+            return state
         }else {
-            return State.Player
+            state = State.Player
+            return state
         }
     }
     
     func playerStand(player: Int) -> State {
-        players[player].hand.activeHand = false
-        
-        return State.NextPlayer
+        state = State.NextPlayer
+        return state
     }
     
     func playerSurrender(player: Int) -> State {
         players[player].cash += players[player].bet/2
         
-        return State.NextPlayer
+        state = State.NextPlayer
+        return state
     }
     
     func playerCanSurrender(player: Int) -> Bool {
@@ -191,7 +195,6 @@ class Blackjack {
             }else {
                 return BlackjackPlayer.State.Win
             }
-        
         }
         return State.Post
     }
