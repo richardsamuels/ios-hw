@@ -139,36 +139,13 @@ class Blackjack {
         return players[player].hand.numCards == 2
     }
     
-    private func scorePlayer(player: BlackjackPlayer) -> BlackjackPlayer.State {
-        let playerScore = player.hand.score()
-        let dealerScore = playerDealer.hand.score()
-        
-        let bjPlayer = player.hand.hasBlackjack()
-        let bjDealer = playerDealer.hand.hasBlackjack()
-        
-        
-        // All possible tie conditions
-        if bjPlayer && bjDealer
-            || playerScore == dealerScore {
-            return BlackjackPlayer.State.Push
-                
-        // ALl possible lose conditions
-        }else if bjDealer || playerScore > 21 || playerScore < dealerScore {
-            
-            return BlackjackPlayer.State.Lose
-        
-        // Otherwise they win
-        }else {
-            return BlackjackPlayer.State.Win
-        }
-        
-    }
-    
     private func dealer() -> State {
         while playerDealer.hand.score() <= 16 {
             playerDealer.hand.addCard(shoe.draw())
         }
-        return State.Scoring
+        state = State.Scoring
+        gameAdvanceState();
+        return state
     }
     
     private func score() -> State {
@@ -180,23 +157,29 @@ class Blackjack {
             let bjPlayer = player.hand.hasBlackjack()
             let bjDealer = self.playerDealer.hand.hasBlackjack()
             
+            if(bjDealer) {
+                player.cash += player.insurance * 2
+            }
             
             // All possible tie conditions
             if bjPlayer && bjDealer
                 || playerScore == dealerScore {
-                return BlackjackPlayer.State.Push
+                    player.cash += player.bet
+                    return BlackjackPlayer.State.Push
                     
-            // ALl possible lose conditions
+                    // ALl possible lose conditions
             }else if bjDealer || playerScore > 21 || playerScore < dealerScore {
                 
                 return BlackjackPlayer.State.Lose
-            
-            // Otherwise they win
+                
+                // Otherwise they win
             }else {
+                player.cash += (player.bet * 3)/2
                 return BlackjackPlayer.State.Win
             }
         }
-        return State.Post
+        state = State.Post
+        return state
     }
     
     func post() -> State {
@@ -215,7 +198,8 @@ class Blackjack {
             shoe.reset()
         }
         
-        return State.Post
+        state =  State.Post
+        return state
     }
     
     init(playerCount: Int, numberOfDecks: Int) {

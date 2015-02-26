@@ -22,7 +22,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
         
         if indexPath.row == 0 {
-            if game.state != Blackjack.State.Player {
+            if game.state == Blackjack.State.Player {
                 cell.set(indexPath.row, hand: game.playerDealer.hand.string(),
                     score: game.playerDealer.hand.score())
             }else {
@@ -79,6 +79,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.scoring()
             }
             
+            self.uiTable.reloadData()
+            
         })
     }
     
@@ -120,6 +122,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     @IBAction func actionHit() {
+        uiSurrender.hidden = true
+        
         if game.state == Blackjack.State.Player {
             let s = game.playerHit(game.currentPlayer)
             uiTable.reloadData()
@@ -138,11 +142,15 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func scoring() {
-        NSLog("scoring");
+        game.gameAdvanceState()
+        
     }
     
     //Notify the player it's their turn, then execute action
     func playerPrompt(player: Int?, action: ((Int) -> Void)? ) {
+        self.uiSurrender.hidden = false
+        
+        //Work with the optional
         var playerNum: Int
         if player == nil {
             playerNum = game.currentPlayer
@@ -150,6 +158,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             playerNum = player!
         }
         
+        //Let the user know whose turn it is
         let prompt = UIAlertController(title: "Player \(playerNum + 1)", message: "It is now your turn", preferredStyle: UIAlertControllerStyle.Alert)
         
         prompt.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, { (UIAlertAction) -> Void in if action != nil { action!(playerNum)}}) )
