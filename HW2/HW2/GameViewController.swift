@@ -23,16 +23,16 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if indexPath.row == 0 {
             if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
-                cell.set(indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
                     score: nil)
             }else {
-                cell.set(indexPath.row, hand: game.playerDealer.hand.string(),
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(),
                     score: game.playerDealer.hand.score())
             }
         }else {
             let player: BlackjackPlayer = game.players [(indexPath.row - 1)]
             
-            cell.set(indexPath.row,
+            cell.set(player.cash, player: indexPath.row,
                 hand: player.hand.string(),
                 wager: player.bet,
                 insurance: player.insurance,
