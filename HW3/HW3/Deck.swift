@@ -47,10 +47,14 @@ class Deck {
         let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
         
         for c in set {
-            deck.append(Card(val: c, suit: "♠"))
-            deck.append(Card(val: c, suit: "♥"))
-            deck.append(Card(val: c, suit: "♦"))
-            deck.append(Card(val: c, suit: "♣"))
+            // deck.append(Card(val: c, suit: "♠"))
+            // deck.append(Card(val: c, suit: "♥"))
+            // deck.append(Card(val: c, suit: "♦"))
+            // deck.append(Card(val: c, suit: "♣"))
+            deck.append(Card(val: c, suit: "spades"))
+            deck.append(Card(val: c, suit: "hearts"))
+            deck.append(Card(val: c, suit: "diamonds"))
+            deck.append(Card(val: c, suit: "clubs"))
         }
         
         //Now shuffle the array

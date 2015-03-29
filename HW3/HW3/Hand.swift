@@ -39,7 +39,7 @@ class Hand {
     func string(hideHole: Bool = false) -> String? {
         if hideHole {
             if let c = cards.last {
-                return "\(c) and \(cards.count - 1) other card"
+                return "\(c.val) and \(cards.count - 1) other card"
             }else {
                 //This should never happen
                 return nil
