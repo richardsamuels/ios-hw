@@ -15,6 +15,7 @@ class Blackjack {
         case Insurance
         case Player
         case NextPlayer
+        case AI
         case Dealer
         case Scoring
         case Post
@@ -46,6 +47,8 @@ class Blackjack {
         case State.Player:
             break
         case State.NextPlayer:
+            state = playerNext()
+        case State.AI:
             state = playerNext()
         case State.Dealer:
             state = dealer()
@@ -106,6 +109,11 @@ class Blackjack {
             state = State.Dealer
             return state
         }else {
+            if currentPlayer + 1 == players.count {
+                state = State.AI
+                return State.AI
+            }
+            
             state = State.Player
             return State.Player
         }
@@ -137,6 +145,119 @@ class Blackjack {
     
     func playerCanSurrender(player: Int) -> Bool {
         return players[player].hand.numCards == 2
+    }
+    
+    func ai() -> State {
+        let h = players[currentPlayer].hand
+        let playerScore = players[currentPlayer].hand.score()
+        let dealerPeek = players[0].hand.cards[0].val
+        
+        if h.cards.count == 2 && h.cards[0].val == h.cards[1].val {
+            //Pairs
+            while state != State.NextPlayer {
+                switch players[0].hand.cards[0].val {
+                case "2", "3", "4", "5", "6":
+                    switch h.cards[0].val {
+                    case "2","3","4","5","6","7","8","9","A":
+                        playerHit(currentPlayer)
+                    case "J", "Q", "K":
+                        playerStand(currentPlayer)
+                    case _:
+                        break
+                    }
+                    
+                case "7":
+                    switch h.cards[0].val {
+                    case "2","3","4","5","6","7","8","A":
+                        playerHit(currentPlayer)
+                    case "J", "Q", "K", "9":
+                        playerStand(currentPlayer)
+                    case _:
+                        break
+                    }
+                
+                case "8", "J", "Q", "K":
+                    switch h.cards[0].val {
+                    case "2","3","4","5","6","8", "A":
+                        playerHit(currentPlayer)
+                    case "J", "Q", "K", "9", "7":
+                        playerStand(currentPlayer)
+                    case _:
+                        break
+                    }
+                
+                case "9", "A":
+                    switch h.cards[0].val {
+                    case "2","3","4","5","6","7","8","A":
+                        playerHit(currentPlayer)
+                    case "J", "Q", "K", "9":
+                        playerStand(currentPlayer)
+                    case _:
+                        break
+                    }
+                case _:
+                    break;
+                }
+            }
+            return state;
+            
+        }
+        
+        var isHard = false;
+        
+        for card in h.cards {
+            if card.val == "A" {
+                isHard = true
+                break
+            }
+        }
+        
+        if isHard {
+            while state != State.NextPlayer {
+                switch playerScore {
+                case 17...21:
+                    playerStand(currentPlayer)
+                case 13...16:
+                    if dealerPeek == "2" || dealerPeek == "3" || dealerPeek == "4" || dealerPeek == "5" || dealerPeek == "6" {
+                        playerStand(currentPlayer)
+                    }else {
+                        playerHit(currentPlayer)
+                    }
+                case 12:
+                    if dealerPeek == "4" || dealerPeek == "5" || dealerPeek == "6" {
+                        playerStand(currentPlayer)
+                    }else {
+                        playerHit(currentPlayer)
+                    }
+                case 5...11:
+                    playerHit(currentPlayer)
+                case _:
+                    break;
+                }
+            }
+            
+        }else {
+            
+            while state != State.NextPlayer {
+                switch playerScore {
+                case 13...17:
+                    playerHit(currentPlayer)
+                case 18:
+                    if dealerPeek == "9" || dealerPeek == "J" || dealerPeek == "Q" || dealerPeek == "K" {
+                        playerHit(currentPlayer)
+                    }else {
+                        playerStand(currentPlayer)
+                    }
+                case 19...21:
+                    playerStand(currentPlayer)
+                case _:
+                    break;
+                }
+            }
+        }
+        
+        
+        return state
     }
     
     private func dealer() -> State {

@@ -9,7 +9,7 @@
 import Foundation
 
 class Hand {
-    private var cards:[Card] = []
+    var cards:[Card] = []
     var numCards: Int {
         get {
             return cards.count
