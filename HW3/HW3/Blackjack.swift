@@ -22,6 +22,7 @@ class Blackjack {
     }
     
     var players: [BlackjackPlayer] = []
+    var aiPlayers: [BlackjackPlayer] = []
     var playerDealer = BlackjackPlayer()
     var shoe: Shoe
     var state: State = State.Setup
@@ -50,6 +51,7 @@ class Blackjack {
             state = playerNext()
         case State.AI:
             state = playerNext()
+            //state = ai()
         case State.Dealer:
             state = dealer()
         case State.Scoring:
@@ -67,6 +69,16 @@ class Blackjack {
         for (index, p) in enumerate(players) {
             //set the bet
             p.bet = bets[index]
+            p.cash -= p.bet
+            
+            //And deal
+            p.hand.addCard(shoe.draw())
+            p.hand.addCard(shoe.draw())
+        }
+        
+        for (index, p) in enumerate(aiPlayers) {
+            //set the bet
+            p.bet = 5
             p.cash -= p.bet
             
             //And deal
@@ -95,6 +107,10 @@ class Blackjack {
             p.cash -= p.insurance
         }
         
+        for (index, p) in enumerate(aiPlayers) {
+            p.insurance = 0
+        }
+        
         if playerDealer.hand.hasBlackjack() {
             return State.Scoring
         }
@@ -105,22 +121,29 @@ class Blackjack {
     private func playerNext() -> State {
         currentPlayer += 1;
         
-        if currentPlayer >= players.count {
+        if currentPlayer >= players.count + aiPlayers.count {
             state = State.Dealer
             return state
+        }else if currentPlayer >= players.count {
+            state = State.AI
+            return state
         }else {
-            /*if currentPlayer + 1 == players.count {
-                state = State.AI
-                return State.AI
-            }*/
             
             state = State.Player
             return State.Player
         }
     }
     
-    func playerHit(player: Int) -> State {
-        players[player].hand.addCard(shoe.draw());
+    func playerHit(player: Int, ai: Bool = false) -> State {
+        var players: [BlackjackPlayer]
+        if ai {
+            players = aiPlayers
+            aiPlayers[player].hand.addCard(shoe.draw());
+        }else {
+            players = self.players
+            players[player].hand.addCard(shoe.draw());
+        }
+        
         
         if players[player].hand.score() > 21 {
             state = State.NextPlayer
@@ -131,12 +154,19 @@ class Blackjack {
         }
     }
     
-    func playerStand(player: Int) -> State {
+    func playerStand(player: Int, ai: Bool = false) -> State {
         state = State.NextPlayer
         return state
     }
     
-    func playerSurrender(player: Int) -> State {
+    func playerSurrender(player: Int, ai: Bool = false) -> State {
+        var players: [BlackjackPlayer]
+        if ai {
+            players = aiPlayers
+        }else {
+            players = self.players
+        }
+        
         players[player].cash += players[player].bet/2
         
         state = State.NextPlayer
@@ -148,20 +178,22 @@ class Blackjack {
     }
     
     func ai() -> State {
-        let h = players[currentPlayer].hand
-        let playerScore = players[currentPlayer].hand.score()
+        var currentPlayer = self.currentPlayer - players.count
+        
+        let h = aiPlayers[currentPlayer].hand
+        let playerScore = aiPlayers[currentPlayer].hand.score()
         let dealerPeek = players[0].hand.cards[0].val
         
         if h.cards.count == 2 && h.cards[0].val == h.cards[1].val {
             //Pairs
             while state != State.NextPlayer {
-                switch players[0].hand.cards[0].val {
+                switch dealerPeek {
                 case "2", "3", "4", "5", "6":
                     switch h.cards[0].val {
                     case "2","3","4","5","6","7","8","9","A":
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     case "J", "Q", "K":
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     case _:
                         break
                     }
@@ -169,9 +201,9 @@ class Blackjack {
                 case "7":
                     switch h.cards[0].val {
                     case "2","3","4","5","6","7","8","A":
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     case "J", "Q", "K", "9":
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     case _:
                         break
                     }
@@ -179,9 +211,9 @@ class Blackjack {
                 case "8", "J", "Q", "K":
                     switch h.cards[0].val {
                     case "2","3","4","5","6","8", "A":
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     case "J", "Q", "K", "9", "7":
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     case _:
                         break
                     }
@@ -189,9 +221,9 @@ class Blackjack {
                 case "9", "A":
                     switch h.cards[0].val {
                     case "2","3","4","5","6","7","8","A":
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     case "J", "Q", "K", "9":
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     case _:
                         break
                     }
@@ -219,18 +251,18 @@ class Blackjack {
                     playerStand(currentPlayer)
                 case 13...16:
                     if dealerPeek == "2" || dealerPeek == "3" || dealerPeek == "4" || dealerPeek == "5" || dealerPeek == "6" {
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     }else {
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     }
                 case 12:
                     if dealerPeek == "4" || dealerPeek == "5" || dealerPeek == "6" {
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     }else {
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     }
                 case 5...11:
-                    playerHit(currentPlayer)
+                    playerHit(currentPlayer, ai: true)
                 case _:
                     break;
                 }
@@ -244,12 +276,12 @@ class Blackjack {
                     playerHit(currentPlayer)
                 case 18:
                     if dealerPeek == "9" || dealerPeek == "J" || dealerPeek == "Q" || dealerPeek == "K" {
-                        playerHit(currentPlayer)
+                        playerHit(currentPlayer, ai: true)
                     }else {
-                        playerStand(currentPlayer)
+                        playerStand(currentPlayer, ai: true)
                     }
                 case 19...21:
-                    playerStand(currentPlayer)
+                    playerStand(currentPlayer, ai: true)
                 case _:
                     break;
                 }
@@ -270,7 +302,7 @@ class Blackjack {
     }
     
     private func score() -> State {
-        gameResults = players.map() {
+        gameResults = (players + aiPlayers).map() {
             (player: BlackjackPlayer) -> BlackjackPlayer.State in
             let playerScore = player.hand.score()
             let dealerScore = self.playerDealer.hand.score()
@@ -299,6 +331,7 @@ class Blackjack {
                 return BlackjackPlayer.State.Win
             }
         }
+        
         state = State.Post
         return state
     }
@@ -314,6 +347,11 @@ class Blackjack {
             p.insurance = 0
         }
         
+        for p in aiPlayers {
+            shoe.addToBottom(p.hand.reset())
+            p.bet = 0
+            p.insurance = 0
+        }
         shoe.addToBottom(playerDealer.hand.reset())
         
         //Shuffle after 5 rounds
@@ -325,9 +363,12 @@ class Blackjack {
         return state
     }
     
-    init(playerCount: Int, numberOfDecks: Int) {
+    init(playerCount: Int, aiCount: Int, numberOfDecks: Int) {
         for _ in 0..<playerCount {
             players.append(BlackjackPlayer())
+        }
+        for _ in 0..<aiCount {
+            aiPlayers.append(BlackjackPlayer())
         }
         shoe = Shoe(numberOfDecks: numberOfDecks)
     }

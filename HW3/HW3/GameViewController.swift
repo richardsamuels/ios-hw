@@ -18,12 +18,14 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Surrender Button
     @IBAction func actionSurrender(sender: UIButton) {
-        if game.state == Blackjack.State.Player {
+        if game.state == Blackjack.State.Player  {
             game.playerSurrender(game.currentPlayer)
             let s = game.gameAdvanceState()
             
             if s == Blackjack.State.Player {
                 playerPrompt(game.currentPlayer, nil)
+            }else if s == Blackjack.State.AI {
+                aiPrompt()
             }else {
                 scoring()
             }
@@ -39,6 +41,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             if s == Blackjack.State.Player {
                 playerPrompt(game.currentPlayer, nil)
+            }else if s == Blackjack.State.AI {
+                aiPrompt()
             }else {
                 scoring()
             }
@@ -57,6 +61,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 if s2 == Blackjack.State.Player {
                     playerPrompt(game.currentPlayer, nil)
+                }else if s == Blackjack.State.AI {
+                    aiPrompt()
                 }else {
                     scoring()
                 }
@@ -66,7 +72,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     //Table view Functions
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return game.players.count + 1
+        return game.players.count + 1 + game.aiPlayers.count
     }
     
     //Builds each cell of the table view
@@ -82,13 +88,22 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                     score: game.playerDealer.hand.score())
             }
         }else {
-            let player: BlackjackPlayer = game.players [(indexPath.row - 1)]
+            var player: BlackjackPlayer
+            var ai = false
+            
+            if indexPath.row - 1 < game.players.count {
+                player = game.players [(indexPath.row - 1)]
+            }else {
+                player = game.aiPlayers[(indexPath.row - game.players.count - 1)]
+                ai = true
+            }
             
             cell.set(player.cash, player: indexPath.row,
                 hand: player.hand.string(),
                 wager: player.bet,
                 insurance: player.insurance,
-                score: player.hand.score())
+                score: player.hand.score(),
+                ai: ai)
         }
         
         return cell
@@ -102,7 +117,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
-        self.game = Blackjack(playerCount: 2, numberOfDecks: 3)
+        self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
         uiPlayer.text = ""
     }
     
@@ -200,6 +215,23 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         let prompt = UIAlertController(title: "Player \(playerNum + 1)", message: "It is now your turn", preferredStyle: UIAlertControllerStyle.Alert)
         
         prompt.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, { (UIAlertAction) -> Void in if action != nil { action!(playerNum)}}) )
+        
+        self.presentViewController(prompt, animated: true, completion: nil)
+    }
+    
+    func aiPrompt()  {
+        self.uiSurrender.hidden = false
+        
+        //Let the user know whose turn it is
+        let prompt = UIAlertController(title: "AI", message: "AI players are now taking their turns", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        prompt.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default, {(UIAlertAction) -> Void in
+            while self.game.state == Blackjack.State.AI {
+                self.game.ai()
+                self.game.gameAdvanceState()
+            }
+            self.scoring()
+            }) )
         
         self.presentViewController(prompt, animated: true, completion: nil)
     }

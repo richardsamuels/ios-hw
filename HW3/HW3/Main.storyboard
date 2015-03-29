@@ -120,13 +120,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vxz-Wn-Jhg">
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
-                                    <navigationItem title="Blackjack" id="T3Y-QL-86l">
-                                        <barButtonItem key="leftBarButtonItem" title="End Session" id="jL2-q7-r7g">
-                                            <connections>
-                                                <segue destination="8H4-qe-brr" kind="unwind" unwindAction="gameUnwind:" id="19s-UR-NH1"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <navigationItem title="Blackjack" id="T3Y-QL-86l"/>
                                 </items>
                             </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BJ7-7s-Mh8">
@@ -289,7 +283,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dQw-09-SZ0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="8H4-qe-brr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1070" y="341"/>
         </scene>
