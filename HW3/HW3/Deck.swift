@@ -23,7 +23,7 @@ extension Array {
 // End code from Nate Cook
 
 class Deck {
-    private var deck: [Character] = []
+    var deck: [Card] = []
     var numCards: Int {
         get {
             return deck.count
@@ -31,7 +31,7 @@ class Deck {
     }
     
     //Draw from the top of the deck, returning the character
-    func draw() -> Character {
+    func draw() -> Card {
         if deck.count == 0 {
             reset()
         }
@@ -47,9 +47,10 @@ class Deck {
         let set: [Character] = ["A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9"]
         
         for c in set {
-            for _ in 1...4 {
-                deck.append(c)
-            }
+            deck.append(Card(val: c, suit: "♠"))
+            deck.append(Card(val: c, suit: "♥"))
+            deck.append(Card(val: c, suit: "♦"))
+            deck.append(Card(val: c, suit: "♣"))
         }
         
         //Now shuffle the array
@@ -58,7 +59,7 @@ class Deck {
     }
     
     //Add to back of array
-    func pushback(c: [Character]) {
+    func pushback(c: [Card]) {
         deck += c
     }
     

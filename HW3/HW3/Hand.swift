@@ -9,7 +9,7 @@
 import Foundation
 
 class Hand {
-    private var cards:[Character] = []
+    private var cards:[Card] = []
     var numCards: Int {
         get {
             return cards.count
@@ -23,8 +23,8 @@ class Hand {
     }
     
     //Add a given card c to a deck hand
-    func addCard(c: Character) {
-        switch c {
+    func addCard(c: Card) {
+        switch c.val {
         case "A", "J", "Q", "K", "2", "3", "4", "5", "6", "7", "8", "9":
             cards.append(c);
             
@@ -47,20 +47,20 @@ class Hand {
             
         }else {
             return cards.reduce("") {
-                (retString: String, c: Character) -> String in
-                retString + " " + [c]
+                (retString: String, c: Card) -> String in
+                retString + " " + [c.val]
             }
             
         }
     }
     
     //Peek at the top of a hand
-    func peek() -> Character {
+    func peek() -> Card {
         return cards[0]
     }
     
     //Clean up the hand and return the card set
-    func reset() -> [Character] {
+    func reset() -> [Card] {
         let temp = cards;
         cards = []
         return temp
@@ -70,8 +70,8 @@ class Hand {
     func score() -> Int {
         var numberAces = 0
         let score =  cards.filter() {
-            (c: Character) -> Bool in
-                if c == "A" {
+            (c: Card) -> Bool in
+                if c.val == "A" {
                     numberAces += 1
                     return false
                 }else {
@@ -79,8 +79,8 @@ class Hand {
                 }
             }.map(){
                 //Map the card character to a point value
-                (c:Character) -> Int in
-                switch c {
+                (c: Card) -> Int in
+                switch c.val {
                     
                 case "J", "Q", "K":
                     return 10
@@ -88,7 +88,7 @@ class Hand {
                 case "2", "3", "4", "5", "6", "7", "8", "9":
                     //Explicitly specifying the numbers instead of using _
                     //This way it's safe to forcibly unwrap the optional
-                    return String(c).toInt()!
+                    return String(c.val).toInt()!
                 default:
                     //Something wacky, just play nice
                     return 0

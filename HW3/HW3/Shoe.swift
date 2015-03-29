@@ -10,16 +10,9 @@ import Foundation
 
 
 class Shoe {
-    private let decks: [Deck];
+    private let decks: [Deck]
+    var cards: [Card] = []
     
-    var numCards: Int {
-        get {
-            return decks.map() {
-                (d: Deck) -> Int in
-                return d.numCards
-            }.reduce(0){ $0 + $1}
-        }
-    }
     
     var numberOfDecks: Int {
         get {
@@ -27,28 +20,39 @@ class Shoe {
         }
     }
     
-    func draw() -> Character {
-        let randomlySelectDeck = Int(arc4random_uniform(UInt32(numberOfDecks)))
-        return decks[randomlySelectDeck].draw()
+    func draw() -> Card {
+        if cards.count == 0 {
+            reset()
+        }
+        
+        return self.cards.removeAtIndex(0)
     }
     
-    func addToBottom(characters: [Character])  {
-        for c in characters {
-            for d in decks {
-                if d.numCards < 52 {
-                    d.pushback([c]);
-                }
-            }
+    func addToBottom(cards: [Card])  {
+        for c in cards {
+            self.cards.append(c);
         }
     }
     
     func reset() {
-        for d in decks {
-            d.reset()
+        cards.removeAll(keepCapacity: true)
+        
+        for deck in decks {
+            deck.reset()
+        }
+        
+        for deck in decks {
+            for card in deck.deck {
+                self.cards.append(card);
+            }
+            
+            deck.deck.removeAll(keepCapacity: true)
         }
     }
     
     init(numberOfDecks: Int = 3) {
         decks = [Deck](count: numberOfDecks, repeatedValue: Deck())
+        
+        reset()
     }
 }

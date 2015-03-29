@@ -75,7 +75,7 @@ class Blackjack {
         playerDealer.hand.addCard(shoe.draw())
         playerDealer.hand.addCard(shoe.draw())
         
-        if playerDealer.hand.peek() == "A" {
+        if playerDealer.hand.peek().val == "A" {
             return State.Insurance
         }else {
             return State.Player
