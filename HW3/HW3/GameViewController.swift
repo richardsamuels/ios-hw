@@ -102,6 +102,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
+        self.game = Blackjack(playerCount: 2, numberOfDecks: 3)
         uiPlayer.text = ""
     }
     

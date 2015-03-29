@@ -109,10 +109,10 @@ class Blackjack {
             state = State.Dealer
             return state
         }else {
-            if currentPlayer + 1 == players.count {
+            /*if currentPlayer + 1 == players.count {
                 state = State.AI
                 return State.AI
-            }
+            }*/
             
             state = State.Player
             return State.Player
