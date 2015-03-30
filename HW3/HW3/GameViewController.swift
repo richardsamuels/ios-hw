@@ -13,12 +13,23 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     var bets: [Int] = []
     
     @IBOutlet weak var uiSurrender: UIButton!
+    @IBOutlet weak var uiHit: UIButton!
+    @IBOutlet weak var uiStand: UIButton!
+    @IBOutlet weak var uiStart: UIButton!
     @IBOutlet weak var uiTable: UITableView!
     
     @IBAction func setupUnwind(segue: UIStoryboardSegue) {
         let vc = segue.sourceViewController as SetupViewController
         self.game = Blackjack(playerCount: Int(vc.uiPlayerStepper.value), aiCount: 1, numberOfDecks: Int(vc.uiDeckStepper.value))
         self.uiTable.reloadData()
+    }
+    
+    @IBAction func startGame(sender: UIButton) {
+        start();
+        self.uiStand.hidden = false
+        self.uiSurrender.hidden = false
+        self.uiHit.hidden = false
+        self.uiStart.hidden = true
     }
     
     //Surrender Button
@@ -82,7 +93,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Builds each cell of the table view
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let active: Bool = (self.game.currentPlayer  == indexPath.row - 1)
+        var active: Bool = (self.game.currentPlayer  == indexPath.row - 1)
+        if active && game.state != Blackjack.State.Player {
+            active = false
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
         
         if indexPath.row == 0 {
@@ -127,6 +141,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         if self.game == nil {
             self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
         }
+        self.uiStart.hidden = false;
+        self.uiStand.hidden = true
+        self.uiSurrender.hidden = true
+        self.uiHit.hidden = true
     }
     
     func start() {

@@ -17,9 +17,9 @@ class SetupViewController: UIViewController {
         uiDeckStepper.value = 3.0
         uiPlayerStepper.minimumValue = 1
         uiPlayerStepper.maximumValue = 10
-        uiPlayerStepper.value = 2.0
+        uiPlayerStepper.value = 1.0
         uiDeckNum.text = "3"
-        uiPlayerNum.text = "2"
+        uiPlayerNum.text = "1"
     }
 
     override func didReceiveMemoryWarning() {

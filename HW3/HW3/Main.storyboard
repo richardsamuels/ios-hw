@@ -283,14 +283,26 @@
                                     <outlet property="delegate" destination="5jT-qH-BZN" id="8RA-s3-XoH"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CHz-Ff-y0i">
+                                <rect key="frame" x="261" y="562" width="79" height="30"/>
+                                <state key="normal" title="Start Game">
+                                    <color key="titleColor" red="0.052765942150000002" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startGame:" destination="5jT-qH-BZN" eventType="touchUpInside" id="hWN-pt-BAi"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="CHz-Ff-y0i" secondAttribute="centerX" constant="-0.5" id="0Aw-B7-DkC"/>
                             <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="BJ7-7s-Mh8" secondAttribute="bottom" constant="8" id="2fl-eI-UpE"/>
                             <constraint firstItem="BJ7-7s-Mh8" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" id="68M-2t-PZR"/>
                             <constraint firstItem="2Sf-gg-QbL" firstAttribute="trailing" secondItem="BVL-IA-71h" secondAttribute="trailingMargin" id="EGm-gG-wjv"/>
                             <constraint firstItem="BJ7-7s-Mh8" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" id="M0J-Zm-U6V"/>
                             <constraint firstItem="45P-Rn-2xq" firstAttribute="top" secondItem="gaG-DC-5uO" secondAttribute="bottom" constant="8" id="TUu-rg-PnT"/>
+                            <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="CHz-Ff-y0i" secondAttribute="bottom" constant="8" id="VHv-U9-q7c"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vxz-Wn-Jhg" secondAttribute="trailing" constant="-16" id="VTh-hH-vng"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gaG-DC-5uO" secondAttribute="trailing" constant="16" id="aTa-qW-h4m"/>
                             <constraint firstItem="gaG-DC-5uO" firstAttribute="top" secondItem="Vxz-Wn-Jhg" secondAttribute="bottom" id="cpZ-J7-WND"/>
@@ -299,15 +311,20 @@
                             <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="45P-Rn-2xq" secondAttribute="bottom" constant="8" id="tTy-uV-655"/>
                             <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="2Sf-gg-QbL" secondAttribute="bottom" constant="8" id="utZ-fy-mXd"/>
                             <constraint firstItem="Vxz-Wn-Jhg" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" constant="-16" id="wns-NH-tsM"/>
+                            <constraint firstAttribute="centerY" secondItem="CHz-Ff-y0i" secondAttribute="centerY" constant="-277" id="yAh-C6-T6p"/>
                             <constraint firstItem="Vxz-Wn-Jhg" firstAttribute="top" secondItem="dnh-E9-D5X" secondAttribute="bottom" id="zS6-jF-0n2"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="68M-2t-PZR"/>
+                                <exclude reference="yAh-C6-T6p"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="uiHit" destination="BJ7-7s-Mh8" id="iMj-gT-FeV"/>
+                        <outlet property="uiStand" destination="45P-Rn-2xq" id="l6T-JW-Vf8"/>
+                        <outlet property="uiStart" destination="CHz-Ff-y0i" id="afg-zL-aub"/>
                         <outlet property="uiSurrender" destination="2Sf-gg-QbL" id="qcg-PP-ABW"/>
                         <outlet property="uiTable" destination="gaG-DC-5uO" id="jyf-R4-ziq"/>
                     </connections>
