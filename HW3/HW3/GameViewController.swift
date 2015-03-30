@@ -14,7 +14,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var uiSurrender: UIButton!
     @IBOutlet weak var uiTable: UITableView!
-    @IBOutlet weak var uiPlayer: UILabel!
     
     //Surrender Button
     @IBAction func actionSurrender(sender: UIButton) {
@@ -118,7 +117,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Do any additional setup after loading the view, typically from a nib.
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
         self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
-        uiPlayer.text = ""
     }
     
     func start() {
@@ -208,8 +206,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         }else {
             playerNum = player!
         }
-        
-        uiPlayer.text = " Player \(playerNum + 1)"
         
         //Let the user know whose turn it is
         let prompt = UIAlertController(title: "Player \(playerNum + 1)", message: "It is now your turn", preferredStyle: UIAlertControllerStyle.Alert)

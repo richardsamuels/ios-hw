@@ -275,28 +275,19 @@
                                     <outlet property="delegate" destination="5jT-qH-BZN" id="8RA-s3-XoH"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tgm-DT-5Eh">
-                                <rect key="frame" x="536" y="31" width="48" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="BJ7-7s-Mh8" secondAttribute="bottom" constant="8" id="2fl-eI-UpE"/>
                             <constraint firstItem="BJ7-7s-Mh8" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" id="68M-2t-PZR"/>
                             <constraint firstItem="2Sf-gg-QbL" firstAttribute="trailing" secondItem="BVL-IA-71h" secondAttribute="trailingMargin" id="EGm-gG-wjv"/>
-                            <constraint firstItem="Tgm-DT-5Eh" firstAttribute="trailing" secondItem="BVL-IA-71h" secondAttribute="trailingMargin" id="F8F-SH-EVm"/>
                             <constraint firstItem="BJ7-7s-Mh8" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" id="M0J-Zm-U6V"/>
                             <constraint firstItem="45P-Rn-2xq" firstAttribute="top" secondItem="gaG-DC-5uO" secondAttribute="bottom" constant="8" id="TUu-rg-PnT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vxz-Wn-Jhg" secondAttribute="trailing" constant="-16" id="VTh-hH-vng"/>
-                            <constraint firstItem="gaG-DC-5uO" firstAttribute="top" secondItem="Tgm-DT-5Eh" secondAttribute="bottom" constant="12" id="ZeX-k4-VWL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="gaG-DC-5uO" secondAttribute="trailing" constant="16" id="aTa-qW-h4m"/>
                             <constraint firstItem="gaG-DC-5uO" firstAttribute="top" secondItem="Vxz-Wn-Jhg" secondAttribute="bottom" id="cpZ-J7-WND"/>
                             <constraint firstItem="45P-Rn-2xq" firstAttribute="leading" secondItem="BJ7-7s-Mh8" secondAttribute="trailing" constant="27" id="jKR-j1-8AG"/>
                             <constraint firstItem="gaG-DC-5uO" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" constant="16" id="pBO-zP-5CI"/>
-                            <constraint firstItem="Tgm-DT-5Eh" firstAttribute="top" secondItem="dnh-E9-D5X" secondAttribute="bottom" constant="11" id="qZA-f0-RJj"/>
                             <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="45P-Rn-2xq" secondAttribute="bottom" constant="8" id="tTy-uV-655"/>
                             <constraint firstItem="gQ9-Im-iti" firstAttribute="top" secondItem="2Sf-gg-QbL" secondAttribute="bottom" constant="8" id="utZ-fy-mXd"/>
                             <constraint firstItem="Vxz-Wn-Jhg" firstAttribute="leading" secondItem="BVL-IA-71h" secondAttribute="leadingMargin" constant="-16" id="wns-NH-tsM"/>
@@ -309,7 +300,6 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="uiPlayer" destination="Tgm-DT-5Eh" id="Jmu-f3-odL"/>
                         <outlet property="uiSurrender" destination="2Sf-gg-QbL" id="qcg-PP-ABW"/>
                         <outlet property="uiTable" destination="gaG-DC-5uO" id="jyf-R4-ziq"/>
                     </connections>
