@@ -8,29 +8,40 @@
 
 import UIKit
 
-public class HandTableViewCell: UITableViewCell {
+public class HandTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    @IBOutlet weak var uiHand: UILabel!
+  
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1;
+    }
+    
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = self.uiCollection.dequeueReusableCellWithReuseIdentifier("card_cell", forIndexPath: indexPath) as CardCell
+        
+        //cell.uiLabel.text = "TEST"
+        
+        return cell
+    }
+    
     @IBOutlet weak var uiPlayer: UILabel!
     @IBOutlet weak var uiScore: UILabel!
     @IBOutlet weak var uiWager: UILabel!
+    @IBOutlet var uiCollection: UICollectionView!
     
+
     public func set(cash: Int, player: Int, hand: String?, wager: Int? = nil, insurance: Int? = nil, score: Int? = nil, ai: Bool = false) {
-        if hand != nil {
-            uiHand.text = hand
-        }else {
-            uiHand.text = ""
-        }
+        self.uiCollection.delegate = self
+        self.uiCollection.dataSource = self
         
-        if player == 0 {
-            if ai {
-                uiPlayer.text  = "Player \(player) (AI): $\(cash)"
-            }else {
-                uiPlayer.text = "Dealer"
-            }
+        self.uiCollection.reloadData()
+        
+        if ai {
+            uiPlayer.text  = "Player \(player) (AI): $\(cash)"
+            self.backgroundColor = UIColor.grayColor()
+            self.uiCollection.backgroundColor = UIColor.grayColor()
         }else {
-            if ai {
-                uiPlayer.text  = "Player \(player) (AI): $\(cash)"
+            if player == 0 {
+                uiPlayer.text = "Dealer"
             }else {
                 uiPlayer.text = "Player \(player): $\(cash)"
             }
