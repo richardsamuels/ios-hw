@@ -209,7 +209,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 messages.append("Player \(index + 1): No winner")
             }
         }
-        messages.append("Beginning Round \(game.round + 2)")
         
         //Display the message
         //Has a trailing newline on it
@@ -217,7 +216,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         endGame.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default){
             (UIAlertAction a) in
                 let x = self.game.gameAdvanceState()
-                self.start()
+                self.uiStart.hidden = false;
+                self.uiStand.hidden = true
+                self.uiSurrender.hidden = true
+                self.uiHit.hidden = true
             })
         self.presentViewController(endGame, animated: true, completion: nil)
     }
