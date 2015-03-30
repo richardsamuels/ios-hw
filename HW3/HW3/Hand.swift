@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Hand {
+public class Hand {
     var cards:[Card] = []
     var numCards: Int {
         get {

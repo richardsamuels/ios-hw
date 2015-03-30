@@ -14,7 +14,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var uiSurrender: UIButton!
     @IBOutlet weak var uiTable: UITableView!
-    @IBOutlet weak var uiPlayer: UILabel!
     
     //Surrender Button
     @IBAction func actionSurrender(sender: UIButton) {
@@ -77,15 +76,16 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Builds each cell of the table view
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let active: Bool = (self.game.currentPlayer  == indexPath.row - 1)
         let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
         
         if indexPath.row == 0 {
             if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
-                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
-                    score: nil)
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand,
+                    score: nil, dealer: true, active: active)
             }else {
-                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(),
-                    score: game.playerDealer.hand.score())
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand,
+                    score: game.playerDealer.hand.score(), active:active)
             }
         }else {
             var player: BlackjackPlayer
@@ -99,11 +99,12 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             cell.set(player.cash, player: indexPath.row,
-                hand: player.hand.string(),
+                hand: player.hand,
                 wager: player.bet,
                 insurance: player.insurance,
                 score: player.hand.score(),
-                ai: ai)
+                ai: ai,
+                active: active)
         }
         
         return cell
@@ -118,7 +119,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Do any additional setup after loading the view, typically from a nib.
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
         self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
-        uiPlayer.text = ""
     }
     
     func start() {
@@ -208,8 +208,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         }else {
             playerNum = player!
         }
-        
-        uiPlayer.text = " Player \(playerNum + 1)"
         
         //Let the user know whose turn it is
         let prompt = UIAlertController(title: "Player \(playerNum + 1)", message: "It is now your turn", preferredStyle: UIAlertControllerStyle.Alert)

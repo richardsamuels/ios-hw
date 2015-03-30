@@ -20,6 +20,7 @@
 		4E35616D1AC5D56B00A8236A /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3561611AC5D56B00A8236A /* SetupViewController.swift */; };
 		4E35616E1AC5D56B00A8236A /* Shoe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3561621AC5D56B00A8236A /* Shoe.swift */; };
 		4E3561711AC5D74E00A8236A /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3561701AC5D74E00A8236A /* Card.swift */; };
+		4EAB3B791AC9E1580038C004 /* CardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAB3B781AC9E1580038C004 /* CardCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		4E3561611AC5D56B00A8236A /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		4E3561621AC5D56B00A8236A /* Shoe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shoe.swift; sourceTree = "<group>"; };
 		4E3561701AC5D74E00A8236A /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		4EAB3B781AC9E1580038C004 /* CardCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				4E3561581AC5D56B00A8236A /* AppDelegate.swift */,
 				4E3561591AC5D56B00A8236A /* Blackjack.swift */,
 				4E35615A1AC5D56B00A8236A /* BlackjackPlayer.swift */,
+				4E3561701AC5D74E00A8236A /* Card.swift */,
 				4E35615B1AC5D56B00A8236A /* Deck.swift */,
 				4E35615C1AC5D56B00A8236A /* GameViewController.swift */,
 				4E35615D1AC5D56B00A8236A /* Hand.swift */,
@@ -107,7 +110,7 @@
 				4E35613F1AC5D50F00A8236A /* Images.xcassets */,
 				4E3561411AC5D50F00A8236A /* LaunchScreen.xib */,
 				4E3561361AC5D50F00A8236A /* Supporting Files */,
-				4E3561701AC5D74E00A8236A /* Card.swift */,
+				4EAB3B781AC9E1580038C004 /* CardCell.swift */,
 			);
 			path = HW3;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				4E3561651AC5D56B00A8236A /* Blackjack.swift in Sources */,
 				4E35616D1AC5D56B00A8236A /* SetupViewController.swift in Sources */,
 				4E3561641AC5D56B00A8236A /* AppDelegate.swift in Sources */,
+				4EAB3B791AC9E1580038C004 /* CardCell.swift in Sources */,
 				4E3561711AC5D74E00A8236A /* Card.swift in Sources */,
 				4E35616A1AC5D56B00A8236A /* HandTableViewCell.swift in Sources */,
 				4E3561661AC5D56B00A8236A /* BlackjackPlayer.swift in Sources */,
