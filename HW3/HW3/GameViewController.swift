@@ -15,6 +15,12 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var uiSurrender: UIButton!
     @IBOutlet weak var uiTable: UITableView!
     
+    @IBAction func setupUnwind(segue: UIStoryboardSegue) {
+        let vc = segue.sourceViewController as SetupViewController
+        self.game = Blackjack(playerCount: Int(vc.uiPlayerStepper.value), aiCount: 1, numberOfDecks: Int(vc.uiDeckStepper.value))
+        self.uiTable.reloadData()
+    }
+    
     //Surrender Button
     @IBAction func actionSurrender(sender: UIButton) {
         if game.state == Blackjack.State.Player  {
@@ -118,7 +124,9 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
-        self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
+        if self.game == nil {
+            self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
+        }
     }
     
     func start() {
@@ -159,7 +167,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Starts the game once the view has loaded
     override func viewDidAppear(animated: Bool) {
-        start()
     }
     
     override func didReceiveMemoryWarning() {
