@@ -35,7 +35,7 @@ public class HandTableViewCell: UITableViewCell, UICollectionViewDataSource, UIC
     @IBOutlet var uiCollection: UICollectionView!
     var hand: Hand? = nil
 
-    public func set(cash: Int, player: Int, hand: Hand?, wager: Int? = nil, insurance: Int? = nil, score: Int? = nil, ai: Bool = false, dealer: Bool = false) {
+    public func set(cash: Int, player: Int, hand: Hand?, wager: Int? = nil, insurance: Int? = nil, score: Int? = nil, ai: Bool = false, dealer: Bool = false, active: Bool = false) {
         self.hand = hand
         self.uiCollection.delegate = self
         self.uiCollection.dataSource = self
@@ -68,6 +68,14 @@ public class HandTableViewCell: UITableViewCell, UICollectionViewDataSource, UIC
             uiScore.text = String(score!)
         }else {
             uiScore.text = ""
+        }
+        
+        if active {
+            self.uiCollection.backgroundColor = UIColor.greenColor()
+            self.backgroundColor = UIColor.greenColor()
+        }else {
+            self.uiCollection.backgroundColor = UIColor.whiteColor()
+            self.backgroundColor = UIColor.whiteColor()
         }
     }
 }

@@ -76,15 +76,16 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Builds each cell of the table view
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let active: Bool = (self.game.currentPlayer  == indexPath.row - 1)
         let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
         
         if indexPath.row == 0 {
             if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
                 cell.set(0, player: indexPath.row, hand: game.playerDealer.hand,
-                    score: nil, dealer: true)
+                    score: nil, dealer: true, active: active)
             }else {
                 cell.set(0, player: indexPath.row, hand: game.playerDealer.hand,
-                    score: game.playerDealer.hand.score())
+                    score: game.playerDealer.hand.score(), active:active)
             }
         }else {
             var player: BlackjackPlayer
@@ -102,7 +103,8 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 wager: player.bet,
                 insurance: player.insurance,
                 score: player.hand.score(),
-                ai: ai)
+                ai: ai,
+                active: active)
         }
         
         return cell
