@@ -12,15 +12,14 @@ class SetupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         uiDeckStepper.minimumValue = 1
         uiDeckStepper.maximumValue = 10
         uiDeckStepper.value = 3.0
         uiPlayerStepper.minimumValue = 1
         uiPlayerStepper.maximumValue = 10
-        uiPlayerStepper.value = 2.0
+        uiPlayerStepper.value = 1.0
         uiDeckNum.text = "3"
-        uiPlayerNum.text = "2"
+        uiPlayerNum.text = "1"
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,10 +28,10 @@ class SetupViewController: UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "setupToGame" {
+        if segue.identifier == "gameToSetup" {
             
             var svc = segue.destinationViewController as GameViewController;
-            svc.game = Blackjack(playerCount: Int(uiPlayerStepper.value), aiCount: 0, numberOfDecks: Int(uiDeckStepper.value))
+            svc.game = Blackjack(playerCount: Int(uiPlayerStepper.value), aiCount: 1, numberOfDecks: Int(uiDeckStepper.value))
         }
     }
     
@@ -48,7 +47,5 @@ class SetupViewController: UIViewController {
     @IBOutlet weak var uiDeckStepper: UIStepper!
     @IBOutlet weak var uiPlayerStepper: UIStepper!
     @IBOutlet weak var uiStartGame: UIButton!
-    @IBAction func gameUnwind(segue: UIStoryboardSegue) {
-    }
 }
 

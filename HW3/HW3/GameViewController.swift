@@ -13,7 +13,24 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     var bets: [Int] = []
     
     @IBOutlet weak var uiSurrender: UIButton!
+    @IBOutlet weak var uiHit: UIButton!
+    @IBOutlet weak var uiStand: UIButton!
+    @IBOutlet weak var uiStart: UIButton!
     @IBOutlet weak var uiTable: UITableView!
+    
+    @IBAction func setupUnwind(segue: UIStoryboardSegue) {
+        let vc = segue.sourceViewController as SetupViewController
+        self.game = Blackjack(playerCount: Int(vc.uiPlayerStepper.value), aiCount: 1, numberOfDecks: Int(vc.uiDeckStepper.value))
+        self.uiTable.reloadData()
+    }
+    
+    @IBAction func startGame(sender: UIButton) {
+        start();
+        self.uiStand.hidden = false
+        self.uiSurrender.hidden = false
+        self.uiHit.hidden = false
+        self.uiStart.hidden = true
+    }
     
     //Surrender Button
     @IBAction func actionSurrender(sender: UIButton) {
@@ -76,7 +93,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Builds each cell of the table view
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let active: Bool = (self.game.currentPlayer  == indexPath.row - 1)
+        var active: Bool = (self.game.currentPlayer  == indexPath.row - 1)
+        if active && game.state != Blackjack.State.Player {
+            active = false
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("HandCell") as HandTableViewCell
         
         if indexPath.row == 0 {
@@ -118,7 +138,13 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 //        self.uiTable.registerClass(HandTableViewCell.self, forCellReuseIdentifier: "HandCell")
-        self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
+        if self.game == nil {
+            self.game = Blackjack(playerCount: 1, aiCount: 1, numberOfDecks: 3)
+        }
+        self.uiStart.hidden = false;
+        self.uiStand.hidden = true
+        self.uiSurrender.hidden = true
+        self.uiHit.hidden = true
     }
     
     func start() {
@@ -159,7 +185,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //Starts the game once the view has loaded
     override func viewDidAppear(animated: Bool) {
-        start()
     }
     
     override func didReceiveMemoryWarning() {
@@ -184,7 +209,6 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 messages.append("Player \(index + 1): No winner")
             }
         }
-        messages.append("Beginning Round \(game.round + 2)")
         
         //Display the message
         //Has a trailing newline on it
@@ -192,7 +216,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         endGame.addAction(UIAlertAction(title: "Okay", style:UIAlertActionStyle.Default){
             (UIAlertAction a) in
                 let x = self.game.gameAdvanceState()
-                self.start()
+                self.uiStart.hidden = false;
+                self.uiStand.hidden = true
+                self.uiSurrender.hidden = true
+                self.uiHit.hidden = true
             })
         self.presentViewController(endGame, animated: true, completion: nil)
     }
