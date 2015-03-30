@@ -81,10 +81,10 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if indexPath.row == 0 {
             if game.state == Blackjack.State.Setup || game.state == Blackjack.State.Insurance {
-                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(hideHole: true),
-                    score: nil)
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand,
+                    score: nil, dealer: true)
             }else {
-                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand.string(),
+                cell.set(0, player: indexPath.row, hand: game.playerDealer.hand,
                     score: game.playerDealer.hand.score())
             }
         }else {
@@ -99,7 +99,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             cell.set(player.cash, player: indexPath.row,
-                hand: player.hand.string(),
+                hand: player.hand,
                 wager: player.bet,
                 insurance: player.insurance,
                 score: player.hand.score(),
