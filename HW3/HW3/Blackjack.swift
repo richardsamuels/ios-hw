@@ -247,7 +247,7 @@ class Blackjack {
             while state != State.NextPlayer {
                 switch playerScore {
                 case 17...21:
-                    playerStand(currentPlayer)
+                    playerStand(currentPlayer, ai: true)
                 case 13...16:
                     if dealerPeek == "2" || dealerPeek == "3" || dealerPeek == "4" || dealerPeek == "5" || dealerPeek == "6" {
                         playerStand(currentPlayer, ai: true)
@@ -272,7 +272,7 @@ class Blackjack {
             while state != State.NextPlayer {
                 switch playerScore {
                 case 13...17:
-                    playerHit(currentPlayer)
+                    playerHit(currentPlayer, ai: true)
                 case 18:
                     if dealerPeek == "9" || dealerPeek == "J" || dealerPeek == "Q" || dealerPeek == "K" {
                         playerHit(currentPlayer, ai: true)
