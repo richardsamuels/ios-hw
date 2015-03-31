@@ -135,21 +135,20 @@ class Blackjack {
     }
     
     func playerHit(player: Int, ai: Bool = false) -> State {
-        var players: [BlackjackPlayer]
+        var p: [BlackjackPlayer]
         if ai {
-            players = aiPlayers
+            p = aiPlayers
             aiPlayers[player].hand.addCard(shoe.draw());
         }else {
-            players = self.players
-            players[player].hand.addCard(shoe.draw());
+            p = self.players
+            p[player].hand.addCard(shoe.draw());
         }
         
         
-        if players[player].hand.score() > 21 {
+        if p[player].hand.score() > 21 {
             state = State.NextPlayer
             return state
         }else {
-            state = State.Player
             return state
         }
     }
@@ -195,7 +194,7 @@ class Blackjack {
                     case "J", "Q", "K":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                     
                 case "7":
@@ -205,7 +204,7 @@ class Blackjack {
                     case "J", "Q", "K", "9":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                 
                 case "8", "J", "Q", "K":
@@ -215,7 +214,7 @@ class Blackjack {
                     case "J", "Q", "K", "9", "7":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                 
                 case "9", "A":
@@ -225,10 +224,10 @@ class Blackjack {
                     case "J", "Q", "K", "9":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                 case _:
-                    break;
+                    state = State.NextPlayer
                 }
             }
             return state;
@@ -248,7 +247,7 @@ class Blackjack {
             while state != State.NextPlayer {
                 switch playerScore {
                 case 17...21:
-                    playerStand(currentPlayer)
+                    playerStand(currentPlayer, ai: true)
                 case 13...16:
                     if dealerPeek == "2" || dealerPeek == "3" || dealerPeek == "4" || dealerPeek == "5" || dealerPeek == "6" {
                         playerStand(currentPlayer, ai: true)
@@ -264,7 +263,7 @@ class Blackjack {
                 case 5...11:
                     playerHit(currentPlayer, ai: true)
                 case _:
-                    break;
+                    state = State.NextPlayer
                 }
             }
             
@@ -273,7 +272,7 @@ class Blackjack {
             while state != State.NextPlayer {
                 switch playerScore {
                 case 13...17:
-                    playerHit(currentPlayer)
+                    playerHit(currentPlayer, ai: true)
                 case 18:
                     if dealerPeek == "9" || dealerPeek == "J" || dealerPeek == "Q" || dealerPeek == "K" {
                         playerHit(currentPlayer, ai: true)
@@ -283,7 +282,7 @@ class Blackjack {
                 case 19...21:
                     playerStand(currentPlayer, ai: true)
                 case _:
-                    break;
+                    state = State.NextPlayer
                 }
             }
         }
