@@ -220,6 +220,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.uiStand.hidden = true
                 self.uiSurrender.hidden = true
                 self.uiHit.hidden = true
+                self.uiTable.reloadData()
             })
         self.presentViewController(endGame, animated: true, completion: nil)
     }
