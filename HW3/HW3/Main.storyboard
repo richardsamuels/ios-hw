@@ -123,7 +123,7 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Blackjack" id="T3Y-QL-86l">
-                                        <barButtonItem key="rightBarButtonItem" title="Settings" style="plain" id="lZd-jz-o45">
+                                        <barButtonItem key="rightBarButtonItem" title="Settings" id="lZd-jz-o45">
                                             <connections>
                                                 <segue destination="vXZ-lx-hvc" kind="show" identifier="gameToSetup" id="gGC-vQ-rRY"/>
                                             </connections>
@@ -181,7 +181,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Cf-nJ-076">
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8Cf-nJ-076">
                                                     <rect key="frame" x="8" y="43" width="462" height="156"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="cau-up-fRB">
@@ -218,11 +218,13 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="8Cf-nJ-076" firstAttribute="leading" secondItem="GJM-c1-QYJ" secondAttribute="leadingMargin" id="196-ek-xPd"/>
                                                 <constraint firstItem="ZhB-zF-YJ8" firstAttribute="leading" secondItem="GJM-c1-QYJ" secondAttribute="leadingMargin" id="1GV-A3-7no"/>
                                                 <constraint firstItem="5d0-KR-JlO" firstAttribute="top" secondItem="GJM-c1-QYJ" secondAttribute="topMargin" id="35A-Vi-GlX"/>
                                                 <constraint firstItem="i2b-Hx-7J2" firstAttribute="bottom" secondItem="GJM-c1-QYJ" secondAttribute="bottomMargin" id="4Zq-YY-aGe"/>
                                                 <constraint firstItem="ZhB-zF-YJ8" firstAttribute="leading" secondItem="GJM-c1-QYJ" secondAttribute="leadingMargin" id="4sb-W9-yLF"/>
                                                 <constraint firstItem="i2b-Hx-7J2" firstAttribute="top" secondItem="5d0-KR-JlO" secondAttribute="bottom" constant="14" id="5uo-AW-ND6"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="8Cf-nJ-076" secondAttribute="bottom" constant="8.5" id="6L2-q1-Kuv"/>
                                                 <constraint firstItem="5d0-KR-JlO" firstAttribute="top" secondItem="GJM-c1-QYJ" secondAttribute="topMargin" id="6Tk-4A-7JN"/>
                                                 <constraint firstItem="ZhB-zF-YJ8" firstAttribute="top" secondItem="GJM-c1-QYJ" secondAttribute="topMargin" id="9Xy-h3-dsb"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="i2b-Hx-7J2" secondAttribute="trailing" constant="0.5" id="F5f-WR-Ag4"/>
@@ -231,6 +233,7 @@
                                                 <constraint firstItem="i2b-Hx-7J2" firstAttribute="top" secondItem="5d0-KR-JlO" secondAttribute="bottom" constant="7" id="NME-Mw-UMA"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="i2b-Hx-7J2" secondAttribute="bottom" constant="7" id="Ne9-lU-80c"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="i2b-Hx-7J2" secondAttribute="trailing" constant="0.5" id="QTR-qy-ynn"/>
+                                                <constraint firstItem="8Cf-nJ-076" firstAttribute="top" secondItem="ZhB-zF-YJ8" secondAttribute="bottom" constant="13.5" id="RFs-mO-DHv"/>
                                                 <constraint firstItem="8Cf-nJ-076" firstAttribute="leading" secondItem="GJM-c1-QYJ" secondAttribute="leadingMargin" id="Tm4-9q-TI5"/>
                                                 <constraint firstItem="i2b-Hx-7J2" firstAttribute="leading" secondItem="8Cf-nJ-076" secondAttribute="trailing" constant="8" id="VRd-bG-SCv"/>
                                                 <constraint firstItem="5d0-KR-JlO" firstAttribute="top" secondItem="GJM-c1-QYJ" secondAttribute="topMargin" id="VtC-X4-vPM"/>
@@ -242,6 +245,7 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="5d0-KR-JlO" secondAttribute="trailing" constant="3" id="iu8-ik-Ijs"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="8Cf-nJ-076" secondAttribute="bottom" constant="8" id="r1m-ZY-dXo"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="5d0-KR-JlO" secondAttribute="trailing" constant="3" id="rWl-k7-iaX"/>
+                                                <constraint firstItem="i2b-Hx-7J2" firstAttribute="leading" secondItem="8Cf-nJ-076" secondAttribute="trailing" constant="8" id="ri0-Tp-hGy"/>
                                                 <constraint firstItem="i2b-Hx-7J2" firstAttribute="top" secondItem="5d0-KR-JlO" secondAttribute="bottom" constant="14.5" id="v1X-YI-Zkx"/>
                                                 <constraint firstItem="ZhB-zF-YJ8" firstAttribute="top" secondItem="GJM-c1-QYJ" secondAttribute="topMargin" id="zxc-0W-kkP"/>
                                             </constraints>

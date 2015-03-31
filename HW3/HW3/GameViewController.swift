@@ -40,10 +40,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             if s == Blackjack.State.Player {
                 playerPrompt(game.currentPlayer, nil)
-            }else if s == Blackjack.State.AI {
+            }else /*if s == Blackjack.State.AI {
                 aiPrompt()
-            }else {
-                scoring()
+            }else*/ {
+                //scoring()
+                aiPrompt()
             }
             
         }
@@ -57,10 +58,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             if s == Blackjack.State.Player {
                 playerPrompt(game.currentPlayer, nil)
-            }else if s == Blackjack.State.AI {
+            }else /*if s == Blackjack.State.AI {
                 aiPrompt()
-            }else {
-                scoring()
+            }else*/ {
+                aiPrompt()
+                //scoring()
             }
             
         }
@@ -77,10 +79,11 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 if s2 == Blackjack.State.Player {
                     playerPrompt(game.currentPlayer, nil)
-                }else if s == Blackjack.State.AI {
+                }else /*if s == Blackjack.State.AI {
                     aiPrompt()
-                }else {
-                    scoring()
+                }else*/ {
+                    //scoring()
+                    aiPrompt()
                 }
             }
             
@@ -173,6 +176,7 @@ class GameViewController: UIViewController, UITableViewDelegate, UITableViewData
                     }
                 })
             }else if postBetState == Blackjack.State.Scoring {
+                self.game.gameAdvanceState()
                 self.scoring()
             }else {
                 self.playerPrompt(0, action: nil)

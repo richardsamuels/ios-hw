@@ -135,21 +135,20 @@ class Blackjack {
     }
     
     func playerHit(player: Int, ai: Bool = false) -> State {
-        var players: [BlackjackPlayer]
+        var p: [BlackjackPlayer]
         if ai {
-            players = aiPlayers
+            p = aiPlayers
             aiPlayers[player].hand.addCard(shoe.draw());
         }else {
-            players = self.players
-            players[player].hand.addCard(shoe.draw());
+            p = self.players
+            p[player].hand.addCard(shoe.draw());
         }
         
         
-        if players[player].hand.score() > 21 {
+        if p[player].hand.score() > 21 {
             state = State.NextPlayer
             return state
         }else {
-            state = State.Player
             return state
         }
     }
