@@ -195,7 +195,7 @@ class Blackjack {
                     case "J", "Q", "K":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                     
                 case "7":
@@ -205,7 +205,7 @@ class Blackjack {
                     case "J", "Q", "K", "9":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                 
                 case "8", "J", "Q", "K":
@@ -215,7 +215,7 @@ class Blackjack {
                     case "J", "Q", "K", "9", "7":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                 
                 case "9", "A":
@@ -225,10 +225,10 @@ class Blackjack {
                     case "J", "Q", "K", "9":
                         playerStand(currentPlayer, ai: true)
                     case _:
-                        break
+                        state = State.NextPlayer
                     }
                 case _:
-                    break;
+                    state = State.NextPlayer
                 }
             }
             return state;
@@ -264,7 +264,7 @@ class Blackjack {
                 case 5...11:
                     playerHit(currentPlayer, ai: true)
                 case _:
-                    break;
+                    state = State.NextPlayer
                 }
             }
             
@@ -283,7 +283,7 @@ class Blackjack {
                 case 19...21:
                     playerStand(currentPlayer, ai: true)
                 case _:
-                    break;
+                    state = State.NextPlayer
                 }
             }
         }
